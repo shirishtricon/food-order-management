@@ -41,11 +41,6 @@ export class CategoriesComponent implements OnInit{
 
   }
 
-  // items = [
-  //   { item_id: 1, item_name: "Lime Juice", item_price:25, quantity: 0 },
-  //   { item_id: 2, item_name: "Orange Juice", item_price:20, quantity: 0 },
-  //   { item_id: 3, item_name: "Pineapple Juice", item_price:35, quantity: 0 },
-  // ]
 
   inc(item: any) {
     item.quantity++
@@ -58,13 +53,6 @@ export class CategoriesComponent implements OnInit{
     
   }
 
-  // getTotalPrice() {
-  //   let totalPrice = 0;
-  //   for (let item of this.allItems) {
-  //     totalPrice += item.quantity * item.price;
-  //   }
-  //   return totalPrice;
-  // }
 
   getTotalPrice(): number {
     let totalPrice = 0;
