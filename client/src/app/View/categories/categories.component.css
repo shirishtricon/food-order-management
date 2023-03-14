@@ -1,0 +1,8 @@
+.buttons:active{
+    color: white !important;
+    background-color: black !important;
+}
+.buttons {
+    border: 1px solid black;
+    border-radius: 5px;
+}
