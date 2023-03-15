@@ -1,0 +1,27 @@
+.buttons {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+input.ng-invalid.ng-touched{
+    border: red 1px solid
+}
+select.ng-invalid.ng-touched.is-invalid{
+  border: red 1px solid
+}
+.is-invalid{
+    border: red 1px solid
+  }
+    small{
+      color: red
+  }
+
+  .bi-check-circle{
+    color: #8BC34A;
+}
+  .bi-exclamation-triangle{
+    color: #eed202;
+}
+.bi-x-circle{
+  color:red;
+}

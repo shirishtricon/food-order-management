@@ -12,5 +12,9 @@ export class ItemService {
 
   getItems() {
     return this.http.get<Item[]>('http://localhost:5000/admin/items')
+  };
+
+  addItems(items: Item) {
+    return this.http.post<Item[]>('http://localhost:5000/admin/item',items)
   }
 }

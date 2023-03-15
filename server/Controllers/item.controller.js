@@ -14,8 +14,16 @@ const getAllItems = async (req, res) => {
 };
 
 const addItem = async (req, res) => {
+  items = req.body;
+  for (const property in items) {
+    if (items[property] === "") {
+      delete items[property];
+    }
+  }
+  console.log(items);
+
   await itemService
-    .addItem(req.body)
+    .addItem(items)
     .then((data) => {
       res.status(200).json(data);
     })

@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Item } from 'src/app/Model/item.model';
 import { CategoryService } from 'src/app/Model/Services/category/category.service';
+import { DataService } from 'src/app/Model/Services/data.service';
 import { ItemService } from 'src/app/Model/Services/item/item.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-categories',
@@ -17,15 +19,16 @@ export class CategoriesComponent implements OnInit{
   allItems: Item[] = []
   foodItems: Item[] = [];
 
-  constructor(private router: Router, private categoryService: CategoryService, private itemService: ItemService) { }
+  constructor(private router: Router, 
+              private categoryService: CategoryService, 
+              private itemService: ItemService,
+              private dataService: DataService,
+              private ngxService: NgxUiLoaderService) { }
   
 
   ngOnInit() {
     this.categoryService.getCategories().subscribe((categories) => {
-    
       this.categories.push(...categories);
-      console.log(this.categories);
-      
       categories.map((category) => {
         this.categoryNames.push(category.name)
       })
@@ -38,9 +41,7 @@ export class CategoriesComponent implements OnInit{
       }
       this.allItems.push(...items)
     })
-
   }
-
 
   inc(item: any) {
     item.quantity++
@@ -50,15 +51,14 @@ export class CategoriesComponent implements OnInit{
     if(item.quantity >= 1) {
       item.quantity--;
     }
-    
   }
-
 
   getTotalPrice(): number {
     let totalPrice = 0;
     for (let item of this.allItems) {
       totalPrice += (+item.price) * item.quantity;
     }
+    this.dataService.setTotalPrice(totalPrice)
     return totalPrice;
   }
   
@@ -68,5 +68,13 @@ export class CategoriesComponent implements OnInit{
 
   getItemsByCategory(category: number): Item[] {
     return this.allItems.filter(item => item.category_id === category);
+  }
+
+  navigateToAddItems() {
+    this.ngxService.start();
+    setTimeout(() => {
+      this.router.navigate(['/addItem']);
+      this.ngxService.stop();
+    },1500)
   }
 }

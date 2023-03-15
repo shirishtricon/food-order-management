@@ -1,0 +1,81 @@
+<app-navbar></app-navbar>
+<div class="container mt-2 mx-3">
+    <h1>Add Item</h1>
+    <form (ngSubmit)="onItemAdd(itemForm)" #itemForm="ngForm">
+        <div class="form-group row col-md-6">
+            <div class="col-xs-3">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name" id="name" ngModel required #name = ngModel placeholder="Enter Item Name">
+                <div>
+                    <small *ngIf="name.invalid && name.touched">Item Name is required</small>
+                </div>
+            </div>
+            <div class="col-xs-3 mt-2 dropup">
+                <label for="category">Category</label>
+                <select  name="category" class="form-control" required [class.is-invalid]="category.touched && category.invalid" #category = ngModel ngModel  >                
+                    <option value="" selected>Select Category</option>
+                    <option  *ngFor="let category of allCategories" [value]="category.name">{{category.name}}</option>              
+                  </select>
+                  <div>
+                    <small *ngIf="category.invalid && category.touched">Category is required</small>
+                </div>
+            </div>
+            <div class="col-xs-3 mt-2">
+                <label for="description">Description</label>
+                <textarea type="text" class="form-control"  #description = ngModel ngModel name="description"  id="description" placeholder="Enter Item Description"></textarea>
+            </div>
+            
+            <div class="col-xs-3 mt-2">
+                <label for="price">Price</label>
+                <input type="text" class="form-control"  #price = ngModel ngModel name="price" id="price" placeholder="Enter Item Price">
+                <div>
+                    <small *ngIf="price.invalid && price.touched">Price is required</small>
+                </div>
+            </div>
+            <div class="col-xs-3 mt-2">
+                <label for="ratings">Ratings</label>
+                <select onmousedown="if(this.options.length>3){this.size=3;}" onchange="this.blur()"  onblur="this.size=0;" #ratings = ngModel ngModel class="form-select form-select-sm" name="ratings" id="ratings" aria-label=".form-select-sm example">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+            </div>
+            <div class="col-xs-3 mt-2">
+                <label for="discount">Discount</label>
+                <input type="text" class="form-control" #discount = ngModel ngModel name="discount" id="discount" placeholder="Enter Item Discount">
+            </div>
+            
+        </div>
+        <input type="submit" class="btn buttons my-2" value= "Submit"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+    </form>
+    <!-- modal starts -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" *ngIf="itemAdded === 'Done'"><i class="bi bi-check-circle me-2"></i>Added!</h5>
+              <h5 class="modal-title" id="exampleModalLabel" *ngIf="itemAdded === 'Empty'"><i class="bi bi-exclamation-triangle me-2"></i>Warning!</h5>
+              <h5 class="modal-title  me-4 pr-5" id="exampleModalLabel" *ngIf="itemAdded === 'Error'"><i class="bi bi-x-circle me-2"></i>Error!</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" *ngIf="itemAdded === 'Done'">            
+              <p>Item Details added successfully. Details:</p>
+              <p><b>Item ID:</b> {{lastItemId}}</p>
+              <p><b>Item Name:</b> {{lastItemName}}</p>
+            </div>
+            <div class="modal-body" *ngIf="itemAdded === 'Error'">            
+              <p>item not added!</p>
+            </div>
+            <div class="modal-body" *ngIf="itemAdded === 'Empty'">            
+              <p>Please enter all Details</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-transparent" data-bs-dismiss="modal">Ok</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

@@ -10,6 +10,7 @@ const getAllItems = async () => {
 };
 
 const addItem = async (ItemDetails) => {
+  console.log(ItemDetails);
   await Items.create(ItemDetails);
   const data = await Items.findOne({
     order: [["id", "DESC"]],

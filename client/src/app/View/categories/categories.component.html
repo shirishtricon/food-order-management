@@ -1,60 +1,59 @@
 <app-navbar></app-navbar>
+
 <div class="container mx-2">
-  
-    <div class="container-fluid mt-3 col-sm-6" >
-      <div class="d-flex justify-content-end"><b>Total</b>: <i class="bi bi-currency-rupee"></i>{{getTotalPrice()}}</div>
-        <h2>Categories</h2>
-        <div class="d-flex flex-column" >
-          <!-- accordion start -->
-          <div class="accordion shadow " id="foodItemsAccordion">
-            <div *ngFor="let category of categories" class="accordion-item  text-black">
-              <h2 class="accordion-header" id="{{ category.id }}Header">
-                <button class="accordion-button collapsed  text-black" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+category.id" aria-expanded="false" [attr.aria-controls]=category>
-                  {{ category.name }}
-                </button>
-              </h2>
-              <div [attr.id]="category.id" class="accordion-collapse collapse " [attr.aria-labelledby]="category.id+'Header'" data-bs-parent="#foodItemsAccordion">
-                <div class="accordion-body">
-                  <div class="d-flex justify-content-between mb-1" *ngFor="let item of getItemsByCategory(category.id)">
-                    <div class="d-flex flex-column">
-                        <b>{{item.name}}</b>
-                        <p class="ms-0 mb-1"><i class="bi bi-currency-rupee"></i><small>{{item.price}}</small></p>
-                    </div>
-                    <div>
-                        <div class="btn-group mt-2">
-                            <button type="button" class="btn  buttons" (click)="dec(item)">-</button>
-                            <button type="button" class="btn  ">{{item.quantity}}</button>
-                            <button type="button" class="btn  buttons" (click)="inc(item)">+</button>                       
-                        </div>
-                    </div>
+  <div class="container-fluid mt-3 col-sm-6" >
+    <button type="button" class="btn buttons px-1 mb-2" (click)="navigateToAddItems()">Add Item <i class="bi bi-plus-circle"></i></button>
+      <div class="d-flex flex-column " >
+        <!-- accordion start -->
+        <div class="accordion shadow mb-2" id="foodItemsAccordion">
+          <div *ngFor="let category of categories" class="accordion-item  text-black">
+            <h2 class="accordion-header" id="{{ category.id }}Header">
+              <button class="accordion-button collapsed  text-black" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+category.id" aria-expanded="false" [attr.aria-controls]=category>
+                {{ category.name }}
+              </button>
+            </h2>
+            <div [attr.id]="category.id" class="accordion-collapse collapse " [attr.aria-labelledby]="category.id+'Header'" data-bs-parent="#foodItemsAccordion">
+              <div class="accordion-body">
+                <div class="d-flex justify-content-between mb-1" *ngFor="let item of getItemsByCategory(category.id)">
+                  <div class="d-flex flex-column">
+                      <b>{{item.name}}</b>
+                      <p class="ms-0 mb-1"><i class="bi bi-currency-rupee"></i><small>{{item.price}}</small></p>
+                  </div>
+                  <div>
+                      <div class="btn-group mt-2">
+                          <button type="button" class="btn  buttons" (click)="dec(item)">-</button>
+                          <button type="button" class="btn  ">{{item.quantity}}</button>
+                          <button type="button" class="btn  buttons" (click)="inc(item)">+</button>                       
+                      </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <!-- accordion end -->
+        </div>
+        <!-- accordion end -->
           
-        </div>
-        <div class="buttons-container mt-2">
-          <button type="button" class="btn buttons " data-bs-toggle="modal" data-bs-target="#calculateModal">Calculate Total</button>
-          <button type="button" class="btn buttons ms-3" (click)="reloadComponent()">Clear</button>
-        </div>
-        <div class="modal fade" id="calculateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-body">
-                    <p *ngIf="getTotalPrice() > 0;else noItem"> Total: <i class="bi bi-currency-rupee"></i>{{getTotalPrice()}}</p>
-                </div>
-                <ng-template #noItem>
-                    <p>Please Add Items to cart</p>
-                </ng-template>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
-                </div>
+      </div>
+      <div class="buttons-container my-2">
+        <button type="button" class="btn buttons " data-bs-toggle="modal" data-bs-target="#calculateModal">Calculate Total</button>
+        <button type="button" class="btn buttons ms-3" (click)="reloadComponent()">Clear</button>
+      </div>
+      <div class="modal fade" id="calculateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-body">
+                  <p *ngIf="getTotalPrice() > 0;else noItem"> Total: <i class="bi bi-currency-rupee"></i>{{getTotalPrice()}}</p>
+              </div>
+              <ng-template #noItem>
+                  <p>Please Add Items to cart</p>
+              </ng-template>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
               </div>
             </div>
           </div>
-    </div>
-
-    
+        </div>
+  </div>
+  <ngx-ui-loader fgsColor="white" text="Please Wait" fgsType="rectangle-bounce"></ngx-ui-loader>
 </div>
+
