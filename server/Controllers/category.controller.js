@@ -15,9 +15,9 @@ const getAllCategories = async (req, res) => {
 };
 
 const addCategory = async (req, res) => {
-  let categoryName = req.body.categoryName;
+  let name = req.body.name;
   await categoryService
-    .addCategory(categoryName)
+    .addCategory(name)
     .then((data) => {
       res.status(200).json(data);
     })

@@ -13,4 +13,8 @@ export class CategoryService {
   getCategories() {
    return this.http.get<Category[]>('http://localhost:5000/admin/categories') 
   }
+
+  addCategory(category: Category) {
+    return this.http.post<Category[]>('http://localhost:5000/admin/category',category)
+  }
 }

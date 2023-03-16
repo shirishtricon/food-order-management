@@ -18,6 +18,7 @@ export class CategoriesComponent implements OnInit{
   categories: any[] = [];
   allItems: Item[] = []
   foodItems: Item[] = [];
+  numberOfItems: number;
 
   constructor(private router: Router, 
               private categoryService: CategoryService, 
@@ -67,6 +68,14 @@ export class CategoriesComponent implements OnInit{
   }
 
   getItemsByCategory(category: number): Item[] {
+    let itemObj = this.allItems.filter(item => item.category_id === category);
+
+   
+
+    this.numberOfItems = Object.keys(itemObj).length
+    console.log(this.numberOfItems);
+    
+    
     return this.allItems.filter(item => item.category_id === category);
   }
 
@@ -77,4 +86,13 @@ export class CategoriesComponent implements OnInit{
       this.ngxService.stop();
     },1500)
   }
+
+  navigateToAddCategory() { 
+    this.ngxService.start();
+    setTimeout(() => {
+      this.router.navigate(['/addCategory']);
+      this.ngxService.stop();
+    },1500)
+  }
+
 }

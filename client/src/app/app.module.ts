@@ -8,6 +8,7 @@ import { CategoriesComponent } from './View/categories/categories.component';
 import { AddItemComponent } from './View/add-item/add-item.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddCategoryComponent } from './View/add-category/add-category.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     CategoriesComponent,
     AddItemComponent,
+    AddCategoryComponent,
     
 
   ],
