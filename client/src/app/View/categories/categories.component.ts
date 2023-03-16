@@ -69,13 +69,7 @@ export class CategoriesComponent implements OnInit{
 
   getItemsByCategory(category: number): Item[] {
     let itemObj = this.allItems.filter(item => item.category_id === category);
-
-   
-
-    this.numberOfItems = Object.keys(itemObj).length
-    console.log(this.numberOfItems);
-    
-    
+    this.numberOfItems = Object.keys(itemObj).length 
     return this.allItems.filter(item => item.category_id === category);
   }
 

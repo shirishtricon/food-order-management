@@ -19,7 +19,7 @@ export class AddCategoryComponent {
   onCategoryAdd(form:any) {
     if(form.valid) {
       let category: any = {
-        name: form.value.name,
+        categoryName: form.value.name,
       }
       this.categoryService.addCategory(category).subscribe((data:any) => {
         this.lastCategoryId = data.id;
