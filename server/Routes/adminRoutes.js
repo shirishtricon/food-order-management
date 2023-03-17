@@ -25,9 +25,9 @@ router.put("/item/:id", itemController.updateItem);
 router.delete("/item/:id", itemController.deleteItem);
 
 //APIs for users
-// router.get("/users");
+router.get("/users", userController.getAllUsers);
 router.post("/user", userController.addUser);
-// router.put("/user");
-// router.delete("/user");
+router.put("/user/:id", userController.updateUser);
+router.delete("/user/:id", userController.deleteUSer);
 
 module.exports = router;

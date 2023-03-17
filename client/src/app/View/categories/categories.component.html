@@ -1,11 +1,16 @@
 <app-navbar></app-navbar>
 
-<div class="container mx-2">
+<div class="container px-3">
   <div class="container-fluid mt-3 col-sm-6" >
-    <button type="button" class="btn buttons px-1 me-2 mb-2" (click)="navigateToAddItems()">Add Item<i class="bi bi-plus-circle p-1"></i></button>
+    <div *ngIf="errorMessage else noError" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    <ng-template #noError>
+      <button type="button" class="btn buttons px-1 me-2 mb-2" (click)="navigateToAddItems()">Add Item<i class="bi bi-plus-circle p-1"></i></button>
     <button type="button" class="btn buttons px-1 mb-2" (click)="navigateToAddCategory()">Add Category<i class="bi bi-plus-circle p-1"></i></button>
-      <div class="d-flex flex-column " >
-        <!-- accordion start -->
+    <div class="d-flex flex-column " >
+      <!-- accordion start -->
+      <div *ngIf="categories.length > 0; else noCategories ">
         <div class="accordion shadow mb-2" id="foodItemsAccordion">
           <div *ngFor="let category of categories" class="accordion-item  text-black">
             <h2 class="accordion-header" id="{{ category.id }}Header">
@@ -24,11 +29,11 @@
                         <p class="ms-0 mb-1"><i class="bi bi-currency-rupee"></i><small>{{item.price}}</small></p>
                     </div>
                     <div>
-                        <div class="btn-group mt-2">
-                            <button type="button" class="btn  buttons" (click)="dec(item)">-</button>
-                            <button type="button" class="btn  ">{{item.quantity}}</button>
-                            <button type="button" class="btn  buttons" (click)="inc(item)">+</button>                       
-                        </div>
+                      <div class="btn-group mt-2">
+                        <button type="button" class="btn  buttons" (click)="dec(item)">-</button>
+                        <button type="button" class="btn  ">{{item.quantity}}</button>
+                        <button type="button" class="btn  buttons" (click)="inc(item)">+</button>                       
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -39,28 +44,58 @@
             </div>
           </div>
         </div>
-        <!-- accordion end -->
-          
       </div>
-      <div class="buttons-container my-2">
-        <button type="button" class="btn buttons " data-bs-toggle="modal" data-bs-target="#calculateModal">Calculate Total</button>
-        <button type="button" class="btn buttons ms-3" (click)="reloadComponent()">Clear</button>
-      </div>
-      <div class="modal fade" id="calculateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-sm modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-body">
-                  <h3 *ngIf="getTotalPrice() > 0;else noItem"> Total: <i class="bi bi-currency-rupee"></i>{{getTotalPrice()}}</h3>
-              </div>
-              <ng-template #noItem>
-                  <h2><i class="bi bi-exclamation-circle me-2"></i>Please Add Items</h2>
-              </ng-template>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
-              </div>
+      <ng-template #noCategories>
+        <h3>No Categories Found</h3>
+      </ng-template>
+      <!-- accordion end -->   
+    </div>
+    <div class="buttons-container my-2">
+      <button type="button" class="btn buttons " data-bs-toggle="modal" data-bs-target="#calculateModal" (click)="selectedItems()">Show Total</button>
+      <button type="button" class="btn buttons ms-3" (click)="reloadComponent()">Clear</button>
+    </div>
+    <div class="modal fade" id="calculateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div *ngIf="getTotalPrice() > 0;else noItem">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Item Name</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Item Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uniqueItems; index as i">
+                      <th scope="row">{{i+1}}</th>
+                      <td>{{item.name}}</td>
+                      <td>{{item.quantity}}</td>
+                      <td>{{item.price}}</td>
+                      <td>{{item.quantity * item.price}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex justify-content-between">
+                  <h3>Total:</h3>
+                  <h3 class="pe-5 me-2"><i class="bi bi-currency-rupee"></i>{{getTotalPrice()}}</h3>
+                </div>
+                
+              </div >
+            </div>
+            <ng-template #noItem>
+                <h2><i class="bi bi-exclamation-circle me-2"></i>Please Add Items</h2>
+            </ng-template>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
             </div>
           </div>
         </div>
+    </div>
+    </ng-template>
   </div>
   <ngx-ui-loader fgsColor="white" text="Please Wait" fgsType="rectangle-bounce"></ngx-ui-loader>
 </div>

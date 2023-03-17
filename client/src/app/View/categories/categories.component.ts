@@ -19,6 +19,9 @@ export class CategoriesComponent implements OnInit{
   allItems: Item[] = []
   foodItems: Item[] = [];
   numberOfItems: number;
+  errorMessage: string = '';
+  allSelectedItems: any[] = []
+  uniqueItems: any[] =[]
 
   constructor(private router: Router, 
               private categoryService: CategoryService, 
@@ -41,17 +44,38 @@ export class CategoriesComponent implements OnInit{
         item.quantity = 0;
       }
       this.allItems.push(...items)
+    }, error => {
+      this.errorMessage = error;
+      console.error('Error Retrieving Categories')
     })
   }
 
   inc(item: any) {
-    item.quantity++
+    item.quantity++;
+    this.allSelectedItems.push(item)
   }
 
   dec(item:any) {
     if(item.quantity >= 1) {
       item.quantity--;
     }
+    this.allSelectedItems.push(item);
+  }
+
+  selectedItems() {
+    const uniqueItems = this.allSelectedItems.reduce((acc, item) => {
+      const existingItemIndex = acc.findIndex((i:any) => i.id === item.id);
+      if (existingItemIndex !== -1) {
+        if (item.quantity > acc[existingItemIndex].quantity) {
+          acc[existingItemIndex] = item;
+        }
+      } else {
+        acc.push(item);
+      }
+      return acc;
+    }, []);
+    this.uniqueItems = uniqueItems
+    
   }
 
   getTotalPrice(): number {
