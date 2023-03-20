@@ -1,6 +1,6 @@
 <nav class="navbar bg-body-tertiary d-flex justify-content-start shadow-sm bg-body-tertiary rounded sticky-top">
     <div class="container-fluid d-flex justify-content-between mt-2">
       <h1 class="d-inline px-3"><i>Calci</i></h1>
-    <h2 class="me-2">Total: <i class="bi bi-currency-rupee"></i>{{getPrice()}}</h2>
+    <h2 class="me-2" *ngIf="displayTextIn === 'categories'">Total: <i class="bi bi-currency-rupee"></i>{{getPrice()}}</h2>
     </div>
   </nav>

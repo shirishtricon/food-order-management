@@ -8,7 +8,7 @@ const addUser = async (userData) => {
   console.log(user);
   const data = await Users.findOne({
     order: [["id", "DESC"]],
-    attributes: ["id", "first_name", "last_name"],
+    attributes: ["id", "emp_id", "first_name", "last_name"],
   });
   return data;
 };

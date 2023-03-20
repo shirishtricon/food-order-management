@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from 'src/app/Model/Services/data.service';
 import { CategoriesComponent } from '../categories/categories.component';
 
@@ -16,6 +16,8 @@ export class NavbarComponent implements OnInit{
   ngOnInit() {
     
   }
+
+  @Input() displayTextIn: string;
   getPrice() {
     this.totalPrice = this.dataService.getTotalPrice();
     return this.totalPrice;

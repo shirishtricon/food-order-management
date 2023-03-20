@@ -1,0 +1,74 @@
+<div class="container mt-3">
+    <form class="px-2 mt-4" (ngSubmit)="onUserAdd(addUser)" #addUser="ngForm">
+        <div class="form-group">
+            <input type="text" class="form-control border-0 border-bottom border-secondary px-1" ngModel required #emp_id = ngModel name="emp_id" id="emp_id" placeholder="Employee ID*" style="border-radius: 0; background-color:#ebf2ff">
+        </div>
+        <div>
+            <small *ngIf="emp_id.invalid && emp_id.touched">Employee ID is required</small>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="form-group mt-3 pe-2">
+                <input type="text" class="form-control border-0 border-bottom border-secondary px-1" ngModel required #first_name = ngModel name="first_name" id="first_name" placeholder="First Name*" style="border-radius: 0; background-color:#ebf2ff">
+            </div>            
+            <div class="form-group mt-3 ps-2">
+                <input type="text" class="form-control border-0 border-bottom border-secondary px-1" ngModel  #last_name = ngModel name="last_name" id="last_name" placeholder="Last Name" style="border-radius: 0; background-color:#ebf2ff">
+            </div>
+        </div>
+        <div>
+            <small *ngIf="first_name.invalid && first_name.touched">First Name is required</small>
+        </div>
+        <div class="form-group mt-3">
+            <input type="email" class="form-control border-0 border-bottom border-secondary px-1" ngModel required email #email = ngModel name="email" id="email" placeholder="Email*" style="border-radius: 0; background-color:#ebf2ff">
+        </div>
+        <div>
+            <small *ngIf="email.invalid && email.touched">Email is required</small>
+        </div>
+        <div class="form-group mt-3">
+            <input type="password" class="form-control border-0 border-bottom border-secondary px-1" ngModel required #password = ngModel name="password" id="password" placeholder="Password*" style="border-radius: 0; background-color:#ebf2ff">
+        </div>
+        <div>
+            <small *ngIf="password.invalid && password.touched">Password is required</small>
+        </div>
+        <div class="form-group mt-3">
+            <input type="password" class="form-control border-0 border-bottom border-secondary px-1" ngModel required #cnfPassword = ngModel name="cnfPassword" id="cnfPassword" placeholder="Confirm Password*" style="border-radius: 0; background-color:#ebf2ff">
+        </div>
+        <div>
+            <small *ngIf="cnfPassword.invalid && cnfPassword.touched">Confirm Password is required</small>
+        </div>
+        <div class="form-group mt-3">
+            <input type="text" class="form-control border-0 border-bottom border-secondary px-1" ngModel required #contact_no = ngModel name="contact_no" id="contact_no" placeholder="Contact Number*" style="border-radius: 0; background-color:#ebf2ff">
+        </div>
+        <div>
+            <small *ngIf="contact_no.invalid && contact_no.touched">Contact Number is required</small>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Sign Up</button>
+    </form>
+    <!-- modal start -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" *ngIf="userAdded === 'Done'"><i class="bi bi-check-circle me-2"></i>Registered!</h5>
+              <h5 class="modal-title" id="exampleModalLabel" *ngIf="userAdded === 'Empty'"><i class="bi bi-exclamation-triangle me-2"></i>Warning!</h5>
+              <h5 class="modal-title  me-4 pr-5" id="exampleModalLabel" *ngIf="userAdded === 'Error'"><i class="bi bi-x-circle me-2"></i>Error!</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" *ngIf="userAdded === 'Done'">            
+              <p>Registered successfully. Details:</p>
+              <p><b>Employee ID:</b> {{lastEmpId}}</p>
+              <p><b>Employee Name:</b> {{lastEmpName}}</p>
+            </div>
+            <div class="modal-body" *ngIf="userAdded === 'Error'">            
+              <p>User Not Registered!</p>
+            </div>
+            <div class="modal-body" *ngIf="userAdded === 'Empty'">            
+              <p>Please enter all Details</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Ok</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
