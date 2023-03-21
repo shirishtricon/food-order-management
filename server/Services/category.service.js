@@ -3,7 +3,7 @@ const db = require("../models");
 const Categories = db.sequelize.models.categories;
 
 const getAllCategories = async () => {
-  const data = await Categories.findAll({ attributes: ["name", "id"] });
+  const data = await Categories.findAll({ attributes: ["uuid", "name", "id"] });
   return data;
 };
 
@@ -16,16 +16,16 @@ const addCategory = async (categoryName) => {
   return data;
 };
 
-const updateCategory = async (id, body) => {
+const updateCategory = async (uuid, body) => {
   await Categories.update(body, {
     where: {
-      id: id,
+      uuid: uuid,
     },
   });
 };
 
-const deleteCategory = async (id) => {
-  await Categories.destroy({ where: { id: id } });
+const deleteCategory = async (uuid) => {
+  await Categories.destroy({ where: { uuid: uuid } });
 };
 
 module.exports = {

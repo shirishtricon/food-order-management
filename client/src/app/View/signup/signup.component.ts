@@ -38,7 +38,7 @@ export class SignupComponent {
         form.reset()
         
       } else {
-        this.userAdded = 'Error'
+        this.userAdded = 'passwordMismatch'
       }
     } else {
       this.userAdded = 'Empty'

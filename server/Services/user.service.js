@@ -16,6 +16,7 @@ const addUser = async (userData) => {
 const getAllUsers = async () => {
   const data = await Users.findAll({
     attributes: [
+      "uuid",
       "id",
       "emp_id",
       "first_name",
@@ -27,21 +28,30 @@ const getAllUsers = async () => {
   return data;
 };
 
-const updateUser = async (id, data) => {
+const getUserByEmail = async (email) => {
+  const data = await Users.findOne({
+    where: { email: email },
+    attributes: ["first_name", "last_name", "email", "password", "contact_no"],
+  });
+  return data;
+};
+
+const updateUser = async (uuid, data) => {
   await Users.update(data, {
     where: {
-      id: id,
+      uuid: uuid,
     },
   });
 };
 
-const deleteUser = async (id) => {
-  await Users.destroy({ where: { id: id } });
+const deleteUser = async (uuid) => {
+  await Users.destroy({ where: { uuid: uuid } });
 };
 
 module.exports = {
   addUser,
   getAllUsers,
+  getUserByEmail,
   updateUser,
   deleteUser,
 };

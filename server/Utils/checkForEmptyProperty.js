@@ -1,4 +1,4 @@
-const checkForEmptyProperty = (data) => {
+const removeEmptyProperty = (data) => {
   for (const property in data) {
     if (data[property] === "") {
       delete data[property];
@@ -7,4 +7,4 @@ const checkForEmptyProperty = (data) => {
   return data;
 };
 
-module.exports = { checkForEmptyProperty };
+module.exports = { removeEmptyProperty };

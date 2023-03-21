@@ -31,6 +31,7 @@ db.sequelize = sequelize;
 db.categories = require("./categories.model")(sequelize, DataTypes);
 db.items = require("./items.model")(sequelize, DataTypes);
 db.users = require("./users.model")(sequelize, DataTypes);
+db.admin = require("./admin.model")(sequelize, DataTypes);
 
 // db.categories.hasMany(db.employees);
 // db.employees.belongsTo(db.categories)

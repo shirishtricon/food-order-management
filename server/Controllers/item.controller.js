@@ -33,12 +33,12 @@ const addItem = async (req, res) => {
 };
 
 const updateItem = async (req, res) => {
-  let id = req.params.id;
-  if (!id || req.body.id) {
+  let uuid = req.params.uuid;
+  if (!uuid || req.body.uuid) {
     res.status(400).json({ message: "Bad Request!" });
   } else {
     itemService
-      .updateItem(id, req.body)
+      .updateItem(uuid, req.body)
       .then(() => {
         res.status(200).json({ message: "Item Updated Successfully!" });
       })
@@ -49,10 +49,10 @@ const updateItem = async (req, res) => {
 };
 
 const deleteItem = async (req, res) => {
-  let id = req.params.id;
+  let uuid = req.params.uuid;
 
   itemService
-    .deleteItem(id)
+    .deleteItem(uuid)
     .then(() => {
       res.status(200).json({ message: "Item deleted successfully!" });
     })

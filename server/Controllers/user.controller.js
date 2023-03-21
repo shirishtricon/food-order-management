@@ -5,7 +5,7 @@ const noBlankProperty = require("../Utils/checkForEmptyProperty");
 
 const addUser = async (req, res) => {
   try {
-    let user = noBlankProperty.checkForEmptyProperty(req.body);
+    let user = noBlankProperty.removeEmptyProperty(req.body);
     console.log(user);
     hashedPassword = await bcrypt.hash(user.password, 5);
     user.password = hashedPassword;
@@ -27,14 +27,23 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+const getUserByEmail = async (email) => {
+  const data = await userService.getUserByEmail(email);
+  return data;
+};
+
 const updateUser = async (req, res) => {
   try {
-    let id = req.params.id;
-    if (!id || req.body.id) {
+    let uuid = req.params.uuid;
+    if (!uuid || req.body.uuid) {
       res.status(400).json({ message: "Bad Request!" });
     } else {
-      userData = noBlankProperty.checkForEmptyProperty(req.body);
-      await userService.updateUser(id, userData);
+      let user = noBlankProperty.removeEmptyProperty(req.body);
+      if (user.password) {
+        hashedPassword = await bcrypt.hash(user.password, 5);
+        user.password = hashedPassword;
+      }
+      await userService.updateUser(uuid, user);
 
       res.status(200).json({ message: "User Updated Successfully!" });
     }
@@ -46,8 +55,8 @@ const updateUser = async (req, res) => {
 
 const deleteUSer = async (req, res) => {
   try {
-    let id = req.params.id;
-    await userService.deleteUser(id);
+    let uuid = req.params.uuid;
+    await userService.deleteUser(uuid);
     res.status(200).json({ message: "User Deleted Successfully!" });
   } catch (err) {
     console.log(err);
@@ -58,6 +67,7 @@ const deleteUSer = async (req, res) => {
 module.exports = {
   addUser,
   getAllUsers,
+  getUserByEmail,
   updateUser,
   deleteUSer,
 };

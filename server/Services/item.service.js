@@ -4,7 +4,7 @@ const Items = db.sequelize.models.items;
 
 const getAllItems = async () => {
   const data = await Items.findAll({
-    attributes: ["id", "name", "price", "category_id"],
+    attributes: ["uuid", "id", "name", "price", "category_id"],
   });
   return data;
 };
@@ -19,16 +19,16 @@ const addItem = async (ItemDetails) => {
   return data;
 };
 
-const updateItem = async (id, body) => {
+const updateItem = async (uuid, body) => {
   await Items.update(body, {
     where: {
-      id: id,
+      uuid: uuid,
     },
   });
 };
 
-const deleteItem = async (id) => {
-  await Items.destroy({ where: { id: id } });
+const deleteItem = async (uuid) => {
+  await Items.destroy({ where: { uuid: uuid } });
 };
 
 module.exports = {

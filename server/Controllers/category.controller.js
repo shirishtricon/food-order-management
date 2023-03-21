@@ -24,11 +24,14 @@ const addCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   try {
-    let id = req.params.id;
-    if (!id || req.body.id) {
+    let uuid = req.params.uuid;
+    if (!uuid || req.body.uuid) {
       res.status(400).json({ message: "Bad Request!" });
     } else {
-      const data = await services.categoryService.updateCategory(id, req.body);
+      const data = await services.categoryService.updateCategory(
+        uuid,
+        req.body
+      );
       res.status(200).json({ message: "Category Updated Successfully!" });
     }
   } catch (err) {
@@ -39,8 +42,8 @@ const updateCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
   try {
-    let id = req.params.id;
-    const data = services.categoryService.deleteCategory(id);
+    let uuid = req.params.uuid;
+    const data = services.categoryService.deleteCategory(uuid);
     res.status(200).json({ message: "Category deleted successfully!" });
   } catch (err) {
     console.log(err);
