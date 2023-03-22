@@ -5,6 +5,8 @@ const cors = require("cors");
 const categoryController = require("../Controllers/category.controller");
 const itemController = require("../Controllers/item.controller");
 const adminController = require("../Controllers/admin.controller");
+const multer = require("multer");
+const upload = multer();
 
 app.use(
   cors({
@@ -35,5 +37,8 @@ router.delete("/deleteAdmin/:uuid", adminController.deleteAdmin);
 // router.post("/user", userController.addUser);
 // router.put("/user/:id", userController.updateUser);
 // router.delete("/user/:id", userController.deleteUSer);
+
+//API for Bulk write
+router.post("/upload", upload.single("file"), itemController.adddBulkItems);
 
 module.exports = router;

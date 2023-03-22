@@ -9,6 +9,15 @@ const getAllItems = async () => {
   return data;
 };
 
+const getItemByName = async (name) => {
+  const data = await Items.findOne({
+    where: {
+      name: name,
+    },
+  });
+  return data;
+};
+
 const addItem = async (ItemDetails) => {
   console.log(ItemDetails);
   await Items.create(ItemDetails);
@@ -17,6 +26,10 @@ const addItem = async (ItemDetails) => {
     attributes: ["id", "name"],
   });
   return data;
+};
+
+const adddBulkItems = async (bulkData) => {
+  await Items.bulkCreate(bulkData);
 };
 
 const updateItem = async (uuid, body) => {
@@ -33,7 +46,9 @@ const deleteItem = async (uuid) => {
 
 module.exports = {
   getAllItems,
+  getItemByName,
   addItem,
+  adddBulkItems,
   updateItem,
   deleteItem,
 };
