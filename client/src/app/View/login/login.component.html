@@ -1,6 +1,6 @@
 <div class="container mt-3">
-    <form class="px-2 mt-4">
-        <div class="form-group" #loginForm = "">
+    <form class="px-2 mt-4" (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm">
+        <div class="form-group">
             
             <input type="email" class="form-control border-0 border-bottom border-secondary px-1" id="inputEmail" placeholder="Enter email*" style="border-radius: 0; background-color:#ebf2ff">
         </div>
@@ -8,11 +8,6 @@
             
             <input type="password" class="form-control border-0 border-bottom border-secondary px-1" id="inputPassword" placeholder="Password*" style="border-radius: 0; background-color:#ebf2ff">
         </div>
-        <select class="form-select mt-3  border-0 border-bottom border-secondary px-1" aria-label="Select Role" style="border-radius: 0; background-color:#ebf2ff">
-            <option selected>Select Role</option>
-            <option value="role">Admin</option>
-            <option value="admin-user">User</option>
-        </select>
         <small class="d-block mt-1">Forgot Password?</small>
         <button type="submit" class="btn btn-primary mt-2">Login</button>
     </form>          

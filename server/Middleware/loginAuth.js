@@ -37,9 +37,7 @@ const login = async (req, res) => {
 
 const genereateToken = (res, details) => {
   delete details.password;
-  //   jwt.sign((details), secretKey, { expiresIn: "300s" }, (err, token) => {
-  //     res.status(200).json({ token: token });
-  //   });
+
   const options = {
     expiresIn: "300s",
   };

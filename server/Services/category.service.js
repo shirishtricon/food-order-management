@@ -7,6 +7,11 @@ const getAllCategories = async () => {
   return data;
 };
 
+const getCategoryByName = async (name) => {
+  const data = await Categories.findOne({ name: name });
+  return data;
+};
+
 const addCategory = async (categoryName) => {
   await Categories.create({ name: categoryName });
   const data = await Categories.findOne({
@@ -30,6 +35,7 @@ const deleteCategory = async (uuid) => {
 
 module.exports = {
   getAllCategories,
+  getCategoryByName,
   addCategory,
   updateCategory,
   deleteCategory,

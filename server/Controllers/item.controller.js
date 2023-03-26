@@ -1,10 +1,13 @@
 const services = require("../Services");
 const xlsx = require("xlsx");
 const itemService = services.itemService;
+const invalidItemService = services.invalidItemService;
 const categoryService = services.categoryService;
 const ifArrayEqual = require("../Utils/ifAllDataEqual");
 const returnCategoryArray = require("../Utils/returnCategoryArray");
-const validIdData = require("../Utils/changeCategoryNameToId");
+const mapNameToId = require("../Utils/changeCategoryNameToId");
+const { items } = require("../models");
+const returnData = require("../Utils/returnData");
 
 const getAllItems = async (req, res) => {
   await itemService
@@ -37,59 +40,28 @@ const addItem = async (req, res) => {
 };
 
 const adddBulkItems = async (req, res) => {
+  const file = req.file;
+
+  //for parsing the Excel data
+  const workbook = xlsx.read(file.buffer);
+  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  const data = xlsx.utils.sheet_to_json(worksheet); // JSON data
+
   try {
-    const file = req.file;
-    let nonExistData = [];
-    let existData = [];
-    let allCategories = [];
-    //for parsing the Excel data
-    const workbook = xlsx.read(file.buffer);
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    const data = xlsx.utils.sheet_to_json(worksheet); // JSON data
-    items = data;
+    validAndInvalidData = await returnData.returnValidAndInvalidData(data);
+    let validData = validAndInvalidData[0];
+    let invalidData = validAndInvalidData[1];
 
-    // two arrays for existing and non Existing data
-    for (item of items) {
-      let itemExist = await itemService.getItemByName(item.name);
-      if (itemExist) {
-        existData.push(item); // data exist
-      } else {
-        nonExistData.push(item); // data not exist
-      }
+    let validDataWithMappedId = await mapNameToId.categoryNameToId(validData);
+
+    await itemService.adddBulkItems(validDataWithMappedId);
+    if (invalidData) {
+      await invalidItemService.addInvalidItem(invalidData);
     }
-
-    const categories = await categoryService.getAllCategories();
-    for (category of categories) {
-      allCategories.push(category.name); // array of all categories
-    }
-
-    // to check if Excel data and data from database are fully equal
-    const areArraysEqual = ifArrayEqual.ifArrayEqual(data, existData);
-    // if yes, then send 400 status code
-    if (areArraysEqual) {
-      res.status(400).json({ message: "All Items already exist" });
-    } else {
-      // if all data does not exist, then return two arrays: one with valid category, other with invalid category(the category name entered in excel)
-      itemCategoryData = returnCategoryArray.returnArrays(
-        allCategories,
-        nonExistData
-      );
-      validCategoryData = itemCategoryData[0]; // with valid category
-      invalidCategoryData = itemCategoryData[1]; //with invalid category
-
-      //returns array of objects containing mapped data from category name to category ID
-      validCategoryWithIdItem = validIdData.categoryNameToId(
-        categories,
-        validCategoryData
-      );
-      console.log(validCategoryWithIdItem);
-
-      await itemService.adddBulkItems(validCategoryWithIdItem); // sends the valid mapped data to database
-      res.status(200).json({ message: "File uploaded successfully" });
-    }
+    res.status(200).json({ message: "File Uploaded Successfully!" });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ messsage: "Internal Server error" });
   }
 };
 

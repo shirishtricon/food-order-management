@@ -29,7 +29,7 @@ const addItem = async (ItemDetails) => {
 };
 
 const adddBulkItems = async (bulkData) => {
-  await Items.bulkCreate(bulkData);
+  await Items.bulkCreate(bulkData, { validate: true });
 };
 
 const updateItem = async (uuid, body) => {
