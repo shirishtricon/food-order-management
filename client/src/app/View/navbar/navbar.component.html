@@ -1,6 +1,9 @@
 <nav class="navbar bg-body-tertiary d-flex justify-content-start shadow-sm bg-body-tertiary rounded sticky-top">
     <div class="container-fluid d-flex justify-content-between mt-2">
       <h1 class="d-inline px-3"><i>Calci</i></h1>
-    <h2 class="me-2" *ngIf="displayTextIn === 'categories'">Total: <i class="bi bi-currency-rupee"></i>{{getPrice()}}</h2>
+      <div class="d-flex flex-column">
+        <button type="button" class="btn buttons px-1 me-2 mb-2" *ngIf="isLoggedIn()" (click)="logout()">Logout<i class="bi bi-box-arrow-right p-1"></i></button>
+        <h2 class="me-2" *ngIf="displayTextIn === 'categories'">Total: <i class="bi bi-currency-rupee"></i>{{getPrice()}}</h2>
+      </div>
     </div>
   </nav>

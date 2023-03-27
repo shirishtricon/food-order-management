@@ -28,7 +28,7 @@ export class SignupComponent {
           password: form.value.password,
           contact_no: form.value.contact_no
         }
-        this.userService.addItems(user).subscribe((data:any) => {
+        this.userService.addUser(user).subscribe((data:any) => {
           this.lastEmpId = data.emp_id;
           this.lastEmpName = data.first_name +' '+ (!(data.last_name) ? '' : data.last_name)
           this.userAdded = 'Done'

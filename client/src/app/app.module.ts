@@ -12,6 +12,10 @@ import { AddCategoryComponent } from './View/add-category/add-category.component
 import { LoginComponent } from './View/login/login.component';
 import { HomeComponent } from './View/home/home.component';
 import { SignupComponent } from './View/signup/signup.component';
+import { ForbiddenComponent } from './View/forbidden/forbidden.component';
+import { AdminComponent } from './View/admin/admin.component';
+import { UserComponent } from './View/user/user.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -24,6 +28,9 @@ import { SignupComponent } from './View/signup/signup.component';
     LoginComponent,
     HomeComponent,
     SignupComponent,
+    ForbiddenComponent,
+    AdminComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +38,8 @@ import { SignupComponent } from './View/signup/signup.component';
     HttpClientModule,
     NgxUiLoaderModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

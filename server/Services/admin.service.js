@@ -12,12 +12,8 @@ const getAdminByEmail = async (email) => {
     where: { email: email },
     attributes: ["name", "email", "password"],
   });
-  const adminData = {
-    name: data.name,
-    email: data.email,
-    password: data.password,
-  };
-  return adminData;
+
+  return data;
 };
 
 const addAdmin = async (adminDetails) => {

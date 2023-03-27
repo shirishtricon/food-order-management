@@ -9,10 +9,10 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string, role: string):Observable<any> {
+  login(loginData:any):Observable<any> {
     const headers = new HttpHeaders()
     .set('content-type','application/json')
     .set('Access-Control-Allow-Origin','*')
-    return this.http.post('http://localhost:5000/login', JSON.stringify({email, password,role}), {headers: headers})
+    return this.http.post('http://localhost:5000/login', loginData, {headers: headers})
   }
 }

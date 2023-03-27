@@ -10,7 +10,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  addItems(user: User) {
+  addUser(user: User) {
     return this.http.post<User[]>('http://localhost:5000/user',user)
   }
 }
