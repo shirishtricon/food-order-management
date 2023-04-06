@@ -35,5 +35,14 @@ export class NavbarComponent implements OnInit{
   isLoggedIn() {
     return this.userAuthService.isLoggedIn();
   }
+
+  isAdmin() {
+    const decodedToken = this.userAuthService.decodedToken();
+    if(decodedToken.role === 'Admin') {
+      return true;
+    } else {
+      return false;
+    }
+  }
   
 }

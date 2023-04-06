@@ -6,8 +6,8 @@
       {{ errorMessage }}
     </div>
     <ng-template #noError>
-      <button type="button" class="btn buttons px-1 me-2 mb-2" (click)="navigateToAddItems()">Add Item<i class="bi bi-plus-circle p-1"></i></button>
-    <button type="button" class="btn buttons px-1 mb-2" (click)="navigateToAddCategory()">Add Category<i class="bi bi-plus-circle p-1"></i></button>
+      <button type="button" class="btn buttons px-1 me-2 mb-2" (click)="navigateToAddItems()" *ngIf="roleMatch('Admin')">Add Item<i class="bi bi-plus-circle p-1"></i></button>
+    <button type="button" class="btn buttons px-1 mb-2" (click)="navigateToAddCategory()" *ngIf="roleMatch('Admin')">Add Category<i class="bi bi-plus-circle p-1"></i></button>
     <div class="d-flex flex-column " >
       <!-- accordion start -->
       <div *ngIf="categories.length > 0; else noCategories ">

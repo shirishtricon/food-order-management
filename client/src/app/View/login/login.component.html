@@ -1,14 +1,37 @@
 <div class="container mt-3">
     <form class="px-2 mt-4" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
-        <div class="form-group">
-            
-            <input type="email" class="form-control border-0 border-bottom border-secondary px-1" ngModel name="email" id="email" placeholder="Enter email*" style="border-radius: 0; background-color:#ebf2ff">
+        <div class="form-group mt-3">
+            <input type="email" class="form-control border-0 border-bottom border-secondary px-1" ngModel required email #email = ngModel name="email" id="email" placeholder="Email*" style="border-radius: 0; background-color:#ebf2ff">
+        </div>
+        <div>
+            <small *ngIf="email.invalid && email.touched">Enter Valid Email</small>
         </div>
         <div class="form-group mt-3">
-            
-            <input type="password" class="form-control border-0 border-bottom border-secondary px-1" ngModel name="password" id="password" placeholder="Password*" style="border-radius: 0; background-color:#ebf2ff">
+            <input type="password" class="form-control border-0 border-bottom border-secondary px-1" ngModel required #password = ngModel name="password" id="password" placeholder="Password*" style="border-radius: 0; background-color:#ebf2ff">
         </div>
-        <small class="d-block mt-1">Forgot Password?</small>
-        <button type="submit" class="btn btn-primary mt-2">Login</button>
-    </form>          
+        <div>
+            <small *ngIf="password.invalid && password.touched">Password is required</small>
+        </div>
+        <p class="d-block mt-1 mb-1">Forgot Password?</p>
+        <button type="submit" class="btn btn-primary mt-2"  >Login</button>
+    </form>
+    
+    <!-- modal starts -->
+    <div class="modal fade" id="loginModal" #loginModal tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+                        
+            <div class="modal-body">     
+                <p *ngIf="message "><i class="bi bi-x-circle me-2"></i>{{message}}</p>
+            </div>
+          
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Ok</button>
+              
+            </div>
+          </div>
+        </div>
+    </div>
+    
 </div>
+<ngx-ui-loader fgsColor="white" text="Please Wait" fgsType="rectangle-bounce"></ngx-ui-loader>

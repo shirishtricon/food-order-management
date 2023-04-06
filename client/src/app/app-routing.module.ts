@@ -8,6 +8,7 @@ import { ForbiddenComponent } from './View/forbidden/forbidden.component';
 import { HomeComponent } from './View/home/home.component';
 import { LoginComponent } from './View/login/login.component';
 import { UserComponent } from './View/user/user.component';
+import { AuthGuard } from './_auth/auth.guard';
 
 const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
@@ -15,8 +16,8 @@ const routes: Routes = [
   { path: 'addItem', component: AddItemComponent },
   { path: 'addCategory', component: AddCategoryComponent },
   { path: 'home', component: HomeComponent},
-  { path: 'admin', component: AdminComponent},
-  { path: 'user', component: UserComponent},
+  { path: 'admin', component: AdminComponent, canActivate:[AuthGuard], data:{roles:['Admin']}},
+  { path: 'user', component: UserComponent, canActivate:[AuthGuard], data:{roles:['User']}},
   { path: 'forbidden', component: ForbiddenComponent}
 ];
 

@@ -41,10 +41,10 @@
         <div>
             <small *ngIf="contact_no.invalid && contact_no.touched">Contact Number is required</small>
         </div>
-        <button type="submit" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Sign Up</button>
+        <button type="submit" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
     </form>
     <!-- modal start -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -55,7 +55,7 @@
             </div>
             <div class="modal-body" *ngIf="userAdded === 'Done'">            
               <p>Registered successfully. Details:</p>
-              <p><b>Employee ID:</b> {{lastEmpId}}</p>
+              
               <p><b>Employee Name:</b> {{lastEmpName}}</p>
             </div>
             <div class="modal-body" *ngIf="userAdded === 'Error'">            
@@ -74,4 +74,5 @@
           </div>
         </div>
       </div>
+
 </div>

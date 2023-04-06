@@ -5,6 +5,8 @@ import { CategoryService } from 'src/app/Model/Services/category/category.servic
 import { DataService } from 'src/app/Model/Services/data.service';
 import { ItemService } from 'src/app/Model/Services/item/item.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { UserAuthService } from 'src/app/Model/Services/user-auth.service';
+import { LoginService } from 'src/app/Model/Services/login/login.service';
 
 @Component({
   selector: 'app-categories',
@@ -27,7 +29,8 @@ export class CategoriesComponent implements OnInit{
               private categoryService: CategoryService, 
               private itemService: ItemService,
               private dataService: DataService,
-              private ngxService: NgxUiLoaderService) { }
+              private ngxService: NgxUiLoaderService,
+              private loginServcie: LoginService) { }
   
 
   ngOnInit() {
@@ -36,6 +39,9 @@ export class CategoriesComponent implements OnInit{
       categories.map((category) => {
         this.categoryNames.push(category.name)
       })
+    }, error => {
+      console.log(error);
+      
     })
     console.log(this.categories);
     
@@ -111,6 +117,10 @@ export class CategoriesComponent implements OnInit{
       this.router.navigate(['/addCategory']);
       this.ngxService.stop();
     },1500)
+  }
+
+  roleMatch(role: any) {
+    return this.loginServcie.roleMatch(role);
   }
 
 }

@@ -1,0 +1,20 @@
+input.ng-invalid.ng-touched{
+    border-bottom: red 2px solid
+}
+select.ng-invalid.ng-touched.is-invalid{
+  border-bottom: red 2px solid
+}
+.is-invalid{
+    border-bottom: red 2px solid
+  }
+    small{
+      color: red
+  }
+
+  .bi-check-circle{
+    color: #8BC34A;
+}
+
+.bi-x-circle{
+  color:red;
+}

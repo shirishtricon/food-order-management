@@ -16,7 +16,8 @@ export class UserAuthService {
 
   public getToken() {
     this.token = localStorage.getItem('token');
-    return localStorage.getItem('token')
+    //return localStorage.getItem('token')
+    return this.token;
   }
 
   public clear() {
@@ -31,7 +32,7 @@ export class UserAuthService {
     }
   }
 
-  public decodedToken() {
+  public decodedToken(): any {
     if(this.getToken()) {
       const decodedToken = helper.decodeToken(this.token);
       return decodedToken;

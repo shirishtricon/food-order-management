@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './View/navbar/navbar.component';
@@ -16,6 +16,9 @@ import { ForbiddenComponent } from './View/forbidden/forbidden.component';
 import { AdminComponent } from './View/admin/admin.component';
 import { UserComponent } from './View/user/user.component';
 import { RouterModule } from '@angular/router';
+import { AuthGuard } from './_auth/auth.guard';
+import { AuthInterceptor } from './_auth/auth.interceptor';
+import { UserAuthService } from './Model/Services/user-auth.service';
 
 
 @NgModule({
@@ -41,7 +44,15 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     RouterModule
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi:true
+    },
+    UserAuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
