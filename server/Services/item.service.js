@@ -19,8 +19,13 @@ const getItemByName = async (name) => {
 };
 
 const addItem = async (ItemDetails) => {
-  console.log(ItemDetails);
-  await Items.create(ItemDetails);
+  await Items.create(ItemDetails)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   const data = await Items.findOne({
     order: [["id", "DESC"]],
     attributes: ["id", "name"],
