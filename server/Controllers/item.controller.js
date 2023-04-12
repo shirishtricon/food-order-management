@@ -8,6 +8,7 @@ const returnCategoryArray = require("../Utils/returnCategoryArray");
 const mapNameToId = require("../Utils/changeCategoryNameToId");
 const { items } = require("../models");
 const returnData = require("../Utils/returnData");
+const getExtension = require("../Utils/getExtension");
 
 const getAllItems = async (req, res) => {
   await itemService
@@ -21,7 +22,7 @@ const getAllItems = async (req, res) => {
 };
 
 const addItem = async (req, res) => {
-  items = req.body;
+  let items = req.body;
   for (const property in items) {
     if (items[property] === "") {
       delete items[property];
@@ -41,6 +42,8 @@ const addItem = async (req, res) => {
 
 const adddBulkItems = async (req, res) => {
   const file = req.file;
+  const fileName = file.originalname;
+  let extension = getExtension.getFileExtension(fileName);
 
   //for parsing the Excel data
   const workbook = xlsx.read(file.buffer);
@@ -48,20 +51,30 @@ const adddBulkItems = async (req, res) => {
   const data = xlsx.utils.sheet_to_json(worksheet); // JSON data
 
   try {
-    validAndInvalidData = await returnData.returnValidAndInvalidData(data);
-    let validData = validAndInvalidData[0];
-    let invalidData = validAndInvalidData[1];
+    if (extension === "xlsx" || extension === "csv") {
+      validAndInvalidData = await returnData.returnValidAndInvalidData(data);
+      let validData = validAndInvalidData[0];
+      let invalidData = validAndInvalidData[1];
 
-    let validDataWithMappedId = await mapNameToId.categoryNameToId(validData);
+      let validDataWithMappedId = await mapNameToId.categoryNameToId(validData);
 
-    await itemService.adddBulkItems(validDataWithMappedId);
-    if (invalidData) {
-      await invalidItemService.addInvalidItem(invalidData);
+      await itemService.adddBulkItems(validDataWithMappedId);
+      if (invalidData) {
+        await invalidItemService.addInvalidItem(invalidData);
+      }
+      res.status(200).json({ message: "File Uploaded Successfully!" });
+    } else {
+      throw Error("invalidFile");
     }
-    res.status(200).json({ message: "File Uploaded Successfully!" });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ messsage: "Internal Server error" });
+    console.log(err.message);
+    if (err.message === "invalidFile") {
+      // check for the specific error
+      res.status(400).json({ message: "Invalid file" });
+    } else {
+      console.log(err);
+      res.status(500).json({ message: "Internal Server error" });
+    }
   }
 };
 
