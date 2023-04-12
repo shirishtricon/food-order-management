@@ -9,3 +9,24 @@
 .bi-exclamation-circle {
     color:red
 }
+input[type=text], select {
+    width: 70%;
+    padding: 3px 20px;
+    margin: 4px 0;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.is-invalid{
+    border: red 1px solid !important
+}
+input.ng-invalid.ng-touched{
+    border: red 1px solid !important
+}
+select.ng-invalid.ng-touched.is-invalid{
+    border: red 1px solid !important
+  }
+  .bi-exclamation-triangle{
+    color: yellow;
+  }
