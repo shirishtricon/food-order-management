@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const db = require("../models");
 
 const Categories = db.sequelize.models.categories;
@@ -7,9 +8,9 @@ const getAllCategories = async () => {
   return data;
 };
 
-const getCategoryByName = async (name) => {
-  const data = await Categories.findOne({ name: name });
-  return data;
+const getCategoryByName = async (categoryName) => {
+  const Catedata = await Categories.findOne({ where: { name: categoryName } });
+  return Catedata;
 };
 
 const addCategory = async (categoryName) => {
