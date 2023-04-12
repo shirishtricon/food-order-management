@@ -45,9 +45,9 @@ export class LoginComponent implements OnInit{
          
           this.ngxService.stop();
           if(tokenDetails.role === 'Admin') {
-            this.router.navigate(['/admin'])
+            this.router.navigate(['/admin/categories'])
           } else {
-            this.router.navigate(['/user'])
+            this.router.navigate(['/user/categories'])
           }
         },2000)
         
