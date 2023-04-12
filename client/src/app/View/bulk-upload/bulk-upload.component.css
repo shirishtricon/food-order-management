@@ -1,0 +1,11 @@
+.buttons {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+small{
+    color: red
+}
+.bi-check-circle{
+    color: #8BC34A;
+}

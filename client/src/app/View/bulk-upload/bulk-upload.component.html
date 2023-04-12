@@ -1,0 +1,22 @@
+<div class="container mt-2 px-4">
+   <form action="">
+    <b>Upload File<span class="text-danger">*</span></b>
+    <input type="file" accept=".xlsx, .csv" name="bulkFile" id="bulkFile" class="mt-1" (change)="onFileSelected($event)">
+    <small class="d-block" *ngIf="errorMessage">{{ errorMessage }}</small>
+    <button type="button" class="btn buttons  mt-2" (click)="onUpload()">Add Item</button>
+   </form>
+   
+</div>
+<div class="modal fade" id="bulkItemModal" #bulkItemModal tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm modal-dialog-centered">
+     <div class="modal-content">                   
+       <div class="modal-body">     
+           <p *ngIf="!errorMessage "><i class="bi bi-check-circle me-2"></i>File Uploaded successfully</p>
+       </div>
+     
+       <div class="modal-footer">
+         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Ok</button>
+       </div>
+     </div>
+   </div>
+</div>
