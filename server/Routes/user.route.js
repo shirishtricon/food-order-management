@@ -3,6 +3,7 @@ const app = express();
 const router = express.Router();
 const cors = require("cors");
 const userController = require("../Controllers/user.controller");
+const verifyToken = require("../Middleware/verifyToken");
 
 app.use(
   cors({
@@ -11,9 +12,9 @@ app.use(
 );
 
 //APIs for users
-router.get("/", userController.getAllUsers);
+router.get("/", verifyToken("Admin"), userController.getAllUsers);
 router.post("/", userController.addUser);
-router.put("/:id", userController.updateUser);
-router.delete("/:id", userController.deleteUSer);
+router.put("/:id", verifyToken("Admin", "User"), userController.updateUser);
+router.delete("/:id", verifyToken("Admin", "User"), userController.deleteUSer);
 
 module.exports = router;
