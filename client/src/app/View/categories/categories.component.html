@@ -21,7 +21,7 @@
             <div [attr.id]="category.id" class="accordion-collapse collapse " [attr.aria-labelledby]="category.id+'Header'" data-bs-parent="#foodItemsAccordion">
               <div class="accordion-body">
                 <div *ngIf="getItemsByCategory(category.id).length > 0; else noItemsFound">
-                  <div class="d-flex justify-content-between mb-1" *ngFor="let item of getItemsByCategory(category.id)">
+                  <div class="d-flex justify-content-between mb-1" *ngFor="let item of getItemsByCategory(category.id); index as indx">
         
                     <div class="d-flex flex-column">
                       
@@ -29,10 +29,15 @@
                         <p class="ms-0 mb-1"><i class="bi bi-currency-rupee"></i><small>{{item.price}}</small></p>
                     </div>
                     <div>
-                      <div class="btn-group mt-2">
+                      <div class="btn-group mt-2" *ngIf="!roleMatch('Admin')">
                         <button type="button" class="btn  buttons" (click)="dec(item)">-</button>
                         <button type="button" class="btn  ">{{item.quantity}}</button>
                         <button type="button" class="btn  buttons" (click)="inc(item)">+</button>                       
+                      </div>
+                      <div *ngIf="roleMatch('Admin')">
+                        <button class="btn buttons me-1" data-bs-target="#editModal" data-bs-toggle="modal" (click)="setDefaultItems(item.uuid)"><i class="bi bi-pencil"></i></button>
+                        <button class="btn buttons" data-bs-target="#deleteModal" data-bs-toggle="modal" (click)="onItemDelete(item.uuid)"><i class="bi bi-trash"></i></button>
+
                       </div>
                     </div>
                   </div>
@@ -50,10 +55,11 @@
       </ng-template>
       <!-- accordion end -->   
     </div>
-    <div class="buttons-container my-2">
+    <div class="buttons-container my-2" *ngIf="!roleMatch('Admin')">
       <button type="button" class="btn buttons " data-bs-toggle="modal" data-bs-target="#calculateModal" (click)="selectedItems()">Show Total</button>
       <button type="button" class="btn buttons ms-3" (click)="reloadComponent()">Clear</button>
     </div>
+    <!-- bill summary modal -->
     <div class="modal fade" id="calculateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
           <div class="modal-content">
@@ -95,8 +101,98 @@
           </div>
         </div>
     </div>
+    <!-- edit Modal -->
+    <div class="modal fade" id="editModal" #editModal tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 *ngIf="edit" class="modal-title" id="editModalLabel"><i class="bi bi-pencil-square me-1 text-primary"></i> Update Item!</h5>
+            <h5 *ngIf="!edit" class="modal-title" id="editModalLabel"> <i class="bi bi-check-circle me-2 text-success"></i>Done!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" >
+            <div *ngIf="edit">
+              <form (ngSubmit)="onItemUpdate(updateForm)" #updateForm="ngForm" class="ms-2">
+              
+
+                <label>Name</label>
+                <input type="text" name="name"  ngModel required #name = ngModel>
+                <div>
+                  <small style="color:red"  *ngIf="name.invalid && name.touched">Employee Name is required</small>
+                </div>
+            
+                <label>Price</label>
+                <input type="text" name="price" ngModel required #price = ngModel>
+                <div>
+                  <small  *ngIf="price.invalid && price.touched">price is required</small>
+                </div>
+            
+                <label>Category</label><br>
+                <select style="width: 300px;" name="category" class="form-control" required [class.is-invalid]="category.touched && category.invalid" #category = ngModel ngModel [(ngModel)]="model.name" >                
+                  <option value="" >Select Category</option>
+                  <option  *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>              
+                </select>
+                <div>
+                  <small  *ngIf="category.invalid && category.touched">Category is required</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <p class="text-danger" *ngIf="validationError">{{validationError}}</p>            
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                
+                </div>
+              </form>
+            </div>
+            <div *ngIf="!edit">
+              <h5 id="exampleModalLabel">Details Updated Successfully!</h5>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="editToTrue()">Ok</button>
+              </div>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+
+    <!-- delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+         
+            <div class="modal-header">
+              <h5 *ngIf="delete" class="modal-title" id="editModalLabel"><i class="bi bi-trash me-1 text-danger"></i> Delete Item!</h5>
+            <h5 *ngIf="!delete" class="modal-title" id="editModalLabel"> <i class="bi bi-check-circle me-2 text-success"></i>Done!</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <div *ngIf="delete">
+            <div class="modal-body">           
+              <p id="exampleModalLabel">Are you sure you want to delete item permanently?</p>
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-transparent" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-transparent" (click)="deleteItem()">Delete</button>
+            </div>
+           </div>
+         
+         <div *ngIf="!delete">
+            <div class="modal-body">
+              <h5 id="exampleModalLabel">Item Deleted Successfully!</h5>
+            </div>            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="deleteToTrue()">Ok</button>
+            </div>
+         </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- acknowledgement modal -->
+    
+    
     </ng-template>
   </div>
   <ngx-ui-loader fgsColor="white" text="Please Wait" fgsType="rectangle-bounce"></ngx-ui-loader>
 </div>
-
