@@ -19,6 +19,7 @@ import { RouterModule } from '@angular/router';
 import { AuthGuard } from './_auth/auth.guard';
 import { AuthInterceptor } from './_auth/auth.interceptor';
 import { UserAuthService } from './Model/Services/user-auth.service';
+import { BulkUploadComponent } from './View/bulk-upload/bulk-upload.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { UserAuthService } from './Model/Services/user-auth.service';
     ForbiddenComponent,
     AdminComponent,
     UserComponent,
+    BulkUploadComponent,
   ],
   imports: [
     BrowserModule,
