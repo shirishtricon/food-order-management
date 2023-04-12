@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Item } from 'src/app/Model/item.model';
 import { CategoryService } from 'src/app/Model/Services/category/category.service';
 import { DataService } from 'src/app/Model/Services/data.service';
@@ -7,6 +7,11 @@ import { ItemService } from 'src/app/Model/Services/item/item.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserAuthService } from 'src/app/Model/Services/user-auth.service';
 import { LoginService } from 'src/app/Model/Services/login/login.service';
+import { NgForm } from '@angular/forms';
+import { Category } from 'src/app/Model/category.model';
+
+
+declare var $: any;
 
 @Component({
   selector: 'app-categories',
@@ -23,9 +28,21 @@ export class CategoriesComponent implements OnInit{
   numberOfItems: number;
   errorMessage: string = '';
   allSelectedItems: any[] = []
-  uniqueItems: any[] =[]
-
+  uniqueItems: any[] =[];
+  defaultCategory: string;
+  validationError: string = ''
+  itemToUpdate:any;
+  @ViewChild('updateForm') form: NgForm;
+  model: Category = new Category();
+  acknowledgement:string;
+  isUpdated = false;
+  @ViewChild('editModal', { static: false }) editModal: any;
+  editModalPopUp: any;
+  edit:boolean = true;
+  delete:boolean = true;
+  itemToBeDeleted: string;
   constructor(private router: Router, 
+              private route: ActivatedRoute,
               private categoryService: CategoryService, 
               private itemService: ItemService,
               private dataService: DataService,
@@ -34,6 +51,30 @@ export class CategoriesComponent implements OnInit{
   
 
   ngOnInit() {
+    
+    this.fetchCategories();
+    this.fetchItems();
+    // this.editModalPopUp = new window.bootstrap.Modal(
+    //   document.getElementById('editModal')
+    // )
+  }
+
+  fetchItems() {
+    this.ngxService.start()
+    this.itemService.getItems().subscribe((items) => {
+      for(let item of items) {
+        item.quantity = 0;
+      }
+      this.allItems = items;
+      this.ngxService.stop()
+    }, error => {
+      this.errorMessage = error;
+      console.error('Error Retrieving Categories')
+    })
+   
+  }
+
+  fetchCategories() {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories.push(...categories);
       categories.map((category) => {
@@ -44,16 +85,6 @@ export class CategoriesComponent implements OnInit{
       
     })
     console.log(this.categories);
-    
-    this.itemService.getItems().subscribe((items) => {
-      for(let item of items) {
-        item.quantity = 0;
-      }
-      this.allItems.push(...items)
-    }, error => {
-      this.errorMessage = error;
-      console.error('Error Retrieving Categories')
-    })
   }
 
   inc(item: any) {
@@ -106,7 +137,7 @@ export class CategoriesComponent implements OnInit{
   navigateToAddItems() {
     this.ngxService.start();
     setTimeout(() => {
-      this.router.navigate(['/addItem']);
+      this.router.navigate(['/admin/addItem']);
       this.ngxService.stop();
     },1500)
   }
@@ -114,13 +145,92 @@ export class CategoriesComponent implements OnInit{
   navigateToAddCategory() { 
     this.ngxService.start();
     setTimeout(() => {
-      this.router.navigate(['/addCategory']);
+      this.router.navigate(['/admin/addCategory']);
       this.ngxService.stop();
     },1500)
   }
 
   roleMatch(role: any) {
     return this.loginServcie.roleMatch(role);
+  }
+
+  onItemUpdate(form: any) {
+    
+    if(form.valid) {
+      this.ngxService.start()
+      let updatedDetails = {
+        name: form.value.name,
+        price: form.value.price,
+        category_id: this.mapCategoryNameToId(form.value.category)
+      }
+      this.itemService.updateItem(updatedDetails, this.itemToUpdate.uuid).subscribe((response) => {
+        this.acknowledgement = 'update'
+        this.edit = false
+      })
+      setTimeout(() => {
+        this.fetchItems();
+      },500)
+      this.ngxService.stop()
+    } else {
+      this.validationError = 'Please Enter All Details'
+    }
+    
+  }
+
+  setDefaultItems(uuid:any) {
+    
+    // let item = this.allItems[`${uuid}`];
+    let item: any = this.allItems.filter((item) => {
+      return item.uuid === uuid;
+    });
+    this.itemToUpdate = item[0];
+    console.log(this.form.form);
+    
+    this.form.form.patchValue({
+      name: this.itemToUpdate.name,
+      price: this.itemToUpdate.price,
+      category: this.mapCategoryIdToCategoryName(this.itemToUpdate.category_id)[0]
+    })
+
+    
+  }
+
+  mapCategoryIdToCategoryName(category_id: any) {
+    let category: any = this.categories.filter((category) => {
+      return category.id === category_id
+    })[0];
+    return [category.name, category.uuid];
+  }
+
+  mapCategoryNameToId(categoryName: any) {
+    let category: any = this.categories.filter((category) => {
+      return category.name === categoryName;
+    })[0];
+    return category.id
+  };
+
+  editToTrue() {
+    this.edit = true;
+  }
+
+  onItemDelete(uuid: string) {
+    this.itemToBeDeleted = uuid
+  }
+  
+  deleteItem() {
+    this.ngxService.start();
+    this.itemService.deleteItem(this.itemToBeDeleted).subscribe((response) => {
+      this.delete = false
+    })
+    // this.fetchItems();
+    setTimeout(() => {
+      this.fetchItems();
+    },500)
+    this.ngxService.stop()
+  }
+
+  deleteToTrue() {
+    this.delete = true;
   }
 
 }
