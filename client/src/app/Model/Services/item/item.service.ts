@@ -23,6 +23,14 @@ export class ItemService {
     return this.http.post<Item[]>('http://localhost:5000/admin/item',items)
   }
 
+  updateItem(item: any, uuid: string) {
+    return this.http.put<any[]>(`http://localhost:5000/admin/item/${uuid}`,item)
+  }
+
+  deleteItem(uuid:string) {
+    return this.http.delete(`http://localhost:5000/admin/item/${uuid}`);
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
