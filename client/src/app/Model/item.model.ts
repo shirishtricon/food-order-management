@@ -1,4 +1,5 @@
 export class Item {
+    uuid: string
     name: string;
     id: number;
     price: string;
