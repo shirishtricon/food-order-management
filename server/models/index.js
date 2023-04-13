@@ -38,7 +38,7 @@ db.invaliditems = require("./invaliditems.model")(sequelize, DataTypes);
 // db.employees.belongsTo(db.categories)
 
 db.sequelize
-  .sync({ alter: true })
+  .sync({ alter: false })
   .then(() => {
     console.log("yes re-sync");
   })
