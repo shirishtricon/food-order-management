@@ -12,14 +12,23 @@ import { CategoriesComponent } from '../categories/categories.component';
 export class NavbarComponent implements OnInit{
 
   totalPrice: number = 0;
+  name :string = ''
 
   constructor(private dataService: DataService, 
               private userAuthService: UserAuthService,
               private router: Router) { }
 
   ngOnInit() {
-    
+    let tokenDetials = this.userAuthService.decodedToken();
+    if(tokenDetials) {
+      
+    let role = tokenDetials.role;
+    if(role === 'User') {
+      this.name = tokenDetials.name
+    }
+    }
   }
+  
 
   @Input() displayTextIn: string;
   getPrice() {
