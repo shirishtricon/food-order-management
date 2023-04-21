@@ -89,14 +89,20 @@ export class CategoriesComponent implements OnInit{
 
   inc(item: any) {
     item.quantity++;
-    this.allSelectedItems.push(item)
+    if(item.quantity != 0) {
+      this.allSelectedItems.push(item)
+    }
+    
   }
 
   dec(item:any) {
     if(item.quantity >= 1) {
       item.quantity--;
     }
-    this.allSelectedItems.push(item);
+    if (item.quantity != 0) {
+      this.allSelectedItems.push(item);
+    }
+    
   }
 
   selectedItems() {
@@ -111,7 +117,21 @@ export class CategoriesComponent implements OnInit{
       }
       return acc;
     }, []);
-    this.uniqueItems = uniqueItems
+    
+    // let zeroQuantityItem = uniqueItems.filter((item:any) => {
+    //   return item.quantity === 0
+    // })
+    let index:any;
+    for (let i = 0; i < uniqueItems.length; i++) {
+      if(uniqueItems[i].quantity === 0) {
+         index = i;
+      }
+    }
+    const newUniqueItems = uniqueItems.filter((obj:any) => obj.quantity !== 0);
+    
+    console.log(newUniqueItems);
+
+    this.uniqueItems = newUniqueItems;
     
   }
 
@@ -234,3 +254,5 @@ export class CategoriesComponent implements OnInit{
   }
 
 }
+
+
