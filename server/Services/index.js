@@ -3,6 +3,7 @@ const itemService = require("./item.service");
 const userService = require("./user.service");
 const adminService = require("./admin.service");
 const invalidItemService = require("./invaliditems.service");
+const orderService = require("./order.service");
 
 module.exports = {
   categoryService,
@@ -10,4 +11,5 @@ module.exports = {
   userService,
   adminService,
   invalidItemService,
+  orderService,
 };
