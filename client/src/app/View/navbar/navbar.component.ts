@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/Model/Services/data.service';
 import { UserAuthService } from 'src/app/Model/Services/user-auth.service';
 import { CategoriesComponent } from '../categories/categories.component';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,8 @@ export class NavbarComponent implements OnInit{
 
   constructor(private dataService: DataService, 
               private userAuthService: UserAuthService,
-              private router: Router) { }
+              private router: Router,
+              private ngxService: NgxUiLoaderService) { }
 
   ngOnInit() {
     let tokenDetials = this.userAuthService.decodedToken();
@@ -37,8 +39,12 @@ export class NavbarComponent implements OnInit{
   }
 
   logout() {
-    this.userAuthService.clear();
-    this.router.navigate(['/home'])
+    this.ngxService.start();
+    setTimeout(() => {
+      this.userAuthService.clear();
+      this.router.navigate(['/home']);
+      this.ngxService.stop();
+    },1000)
   }
 
   isLoggedIn() {
