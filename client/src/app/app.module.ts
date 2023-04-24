@@ -20,6 +20,10 @@ import { AuthGuard } from './_auth/auth.guard';
 import { AuthInterceptor } from './_auth/auth.interceptor';
 import { UserAuthService } from './Model/Services/user-auth.service';
 import { BulkUploadComponent } from './View/bulk-upload/bulk-upload.component';
+import { NgbToastModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastsContainer } from './View/categories/categories-container.component';
 
 
 @NgModule({
@@ -39,12 +43,16 @@ import { BulkUploadComponent } from './View/bulk-upload/bulk-upload.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     NgxUiLoaderModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    NgbToastModule,
+    NgbTooltipModule,
+    ToastsContainer
   ],
   providers: [
     AuthGuard,
