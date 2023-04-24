@@ -7,29 +7,6 @@ const jwt = require("jsonwebtoken");
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // if (role === "Admin") {
-    //   const admin = await adminController.getAdminByEmail(email);
-    //   if (!admin) {
-    //     return res.status(401).json({ message: "Invalid credentials" });
-    //   }
-    //   const passwordMatch = await bcrypt.compare(password, admin.password);
-    //   if (!passwordMatch) {
-    //     return res.status(401).json({ message: "Invalid credentials" });
-    //   }
-    //   genereateToken(res, admin);
-    // } else if (role === "User") {
-    //   const user = await userController.getUserByEmail(email);
-    //   if (!user) {
-    //     return res.status(401).json({ message: "Invalid credentials" });
-    //   }
-    //   const passwordMatch = await bcrypt.compare(password, user.password);
-    //   if (!passwordMatch) {
-    //     return res.status(401).json({ message: "Invalid credentials" });
-    //   }
-    //   genereateToken(res, user);
-    // } else {
-    //   res.status(404).json({ message: "Role not found" });
-    // }
 
     const admin = await adminController.getAdminByEmail(email);
     const user = await userController.getUserByEmail(email);
@@ -64,6 +41,7 @@ const genereateToken = (res, details) => {
   };
 
   const newDetails = {
+    uuid: details.uuid,
     name: details.name,
     email: details.email,
     role: details.role,
