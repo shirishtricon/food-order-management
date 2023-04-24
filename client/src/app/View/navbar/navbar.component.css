@@ -3,3 +3,10 @@
     border: 1px solid black;
     border-radius: 5px;
 }
+
+.custom-offcanvas {
+    width: 50%;
+    left: 0;
+    transform: translateX(-100%);
+    background-color: #F8F9FA;
+  }
