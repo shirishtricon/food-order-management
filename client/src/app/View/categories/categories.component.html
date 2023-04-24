@@ -2,6 +2,7 @@
 
 <div class="container px-3">
   <div class="container-fluid mt-3 col-sm-6" >
+    
     <div *ngIf="errorMessage else noError" class="alert alert-danger">
       {{ errorMessage }}
     </div>
@@ -96,11 +97,16 @@
                 <h2><i class="bi bi-exclamation-circle me-2"></i>Please Add Items</h2>
             </ng-template>
             <div class="modal-footer">
+              <button type="button" class="btn btn-primary"  (click)="submitOrder()" data-bs-dismiss="modal">Mark as Paid</button>
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
             </div>
           </div>
         </div>
     </div>
+
+
+
+    <!--  -->
     <!-- edit Modal -->
     <div class="modal fade" id="editModal" #editModal tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm-down">
@@ -189,10 +195,20 @@
       </div>
     </div>
 
-    <!-- acknowledgement modal -->
-    
+    <!--  modal for submit order-->
+    <div class="toast" role="alert" id="someToast" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body">
+        Hello, world! This is a toast message.
+        <div class="mt-2 pt-2 border-top">
+          <button type="button" class="btn btn-primary btn-sm">Take action</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button>
+        </div>
+      </div>
+    </div>
+
     
     </ng-template>
   </div>
   <ngx-ui-loader fgsColor="white" text="Please Wait" fgsType="rectangle-bounce"></ngx-ui-loader>
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 </div>
