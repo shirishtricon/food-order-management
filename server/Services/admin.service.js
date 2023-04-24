@@ -10,7 +10,7 @@ const getAllAdmin = async () => {
 const getAdminByEmail = async (email) => {
   const data = await Admin.findOne({
     where: { email: email },
-    attributes: ["name", "email", "password"],
+    attributes: ["uuid", "name", "email", "password"],
   });
 
   return data;
