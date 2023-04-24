@@ -31,7 +31,14 @@ const getAllUsers = async () => {
 const getUserByEmail = async (email) => {
   const data = await Users.findOne({
     where: { email: email },
-    attributes: ["first_name", "last_name", "email", "password", "contact_no"],
+    attributes: [
+      "uuid",
+      "first_name",
+      "last_name",
+      "email",
+      "password",
+      "contact_no",
+    ],
   });
   return data;
 };
