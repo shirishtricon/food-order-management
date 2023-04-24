@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Item } from 'src/app/Model/item.model';
 import { CategoryService } from 'src/app/Model/Services/category/category.service';
@@ -9,16 +9,23 @@ import { UserAuthService } from 'src/app/Model/Services/user-auth.service';
 import { LoginService } from 'src/app/Model/Services/login/login.service';
 import { NgForm } from '@angular/forms';
 import { Category } from 'src/app/Model/category.model';
+import { ToastService } from 'src/app/Model/Services/toast.service';
+import { ToastsContainer } from './categories-container.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { OrderService } from 'src/app/Model/Services/order/order.service';
+import { Order } from 'src/app/Model/order.model';
 
 
+declare const bootstrap: any;
 declare var $: any;
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.css']
+  styleUrls: ['./categories.component.css'],
+  
 })
-export class CategoriesComponent implements OnInit{
+export class CategoriesComponent implements OnInit, OnDestroy{
   showJuice = false;
   total:number = 0;
   categoryNames: string[] = []
@@ -29,10 +36,13 @@ export class CategoriesComponent implements OnInit{
   errorMessage: string = '';
   allSelectedItems: any[] = []
   uniqueItems: any[] =[];
+  selectedItemsArray:any[];
   defaultCategory: string;
   validationError: string = ''
   itemToUpdate:any;
+  show: boolean= false;
   @ViewChild('updateForm') form: NgForm;
+  @ViewChild('myToast') myToast: any;
   model: Category = new Category();
   acknowledgement:string;
   isUpdated = false;
@@ -47,7 +57,10 @@ export class CategoriesComponent implements OnInit{
               private itemService: ItemService,
               private dataService: DataService,
               private ngxService: NgxUiLoaderService,
-              private loginServcie: LoginService) { }
+              private loginServcie: LoginService,
+              public toastService: ToastService,
+              private orderService: OrderService
+              ) { }
   
 
   ngOnInit() {
@@ -89,23 +102,23 @@ export class CategoriesComponent implements OnInit{
 
   inc(item: any) {
     item.quantity++;
-    if(item.quantity != 0) {
+
       this.allSelectedItems.push(item)
-    }
+
     
   }
 
   dec(item:any) {
     if(item.quantity >= 1) {
       item.quantity--;
-    }
-    if (item.quantity != 0) {
       this.allSelectedItems.push(item);
     }
-    
+      
+
   }
 
   selectedItems() {
+    
     const uniqueItems = this.allSelectedItems.reduce((acc, item) => {
       const existingItemIndex = acc.findIndex((i:any) => i.id === item.id);
       if (existingItemIndex !== -1) {
@@ -117,21 +130,17 @@ export class CategoriesComponent implements OnInit{
       }
       return acc;
     }, []);
-    
-    // let zeroQuantityItem = uniqueItems.filter((item:any) => {
-    //   return item.quantity === 0
-    // })
+
     let index:any;
     for (let i = 0; i < uniqueItems.length; i++) {
       if(uniqueItems[i].quantity === 0) {
          index = i;
       }
     }
-    const newUniqueItems = uniqueItems.filter((obj:any) => obj.quantity !== 0);
-    
-    console.log(newUniqueItems);
-
+    const newUniqueItems = uniqueItems.filter((obj:any) => obj.quantity !== 0);    
     this.uniqueItems = newUniqueItems;
+    this.selectedItemsArray = this.returnArrayOfSelectedItems(this.uniqueItems);
+    console.log(this.selectedItemsArray);
     
   }
 
@@ -253,6 +262,36 @@ export class CategoriesComponent implements OnInit{
     this.delete = true;
   }
 
+  returnArrayOfSelectedItems(uniqueItems:any) {
+    let onlySelectedItmesArray = [];
+    for(const item of uniqueItems) {
+      for(let i=0;i<item.quantity;i++) {
+        onlySelectedItmesArray.push(item.name)
+      }
+    }
+    return onlySelectedItmesArray;   
+  }
+
+
+  submitOrder() {
+    let orderDetails: Order = {
+      items:  this.selectedItemsArray,
+      subtotal: this.getTotalPrice()
+    }
+    this.show = false;
+    this.orderService.addOrder(orderDetails).subscribe((res) => {
+      console.log(res);
+      this.showSuccess();
+    })
+    
+  }
+  
+  showSuccess() {
+		this.toastService.show('Order Added Successfully', { classname: 'bg-success text-light', delay: 5000 });
+	}
+
+  ngOnDestroy(): void {
+		this.toastService.clear();
+	}
+  
 }
-
-
