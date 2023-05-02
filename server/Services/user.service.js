@@ -4,12 +4,8 @@ const Users = db.sequelize.models.users;
 
 const addUser = async (userData) => {
   console.log(userData);
-  const user = await Users.create(userData);
-  console.log(user);
-  const data = await Users.findOne({
-    order: [["id", "DESC"]],
-    attributes: ["id", "emp_id", "first_name", "last_name"],
-  });
+  const data = await Users.create(userData);
+  // console.log(user);
   return data;
 };
 
