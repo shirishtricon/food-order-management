@@ -4,7 +4,7 @@ const db = require("../models");
 const Categories = db.sequelize.models.categories;
 
 const getAllCategories = async () => {
-  const data = await Categories.findAll({ attributes: ["uuid", "name", "id"] });
+  const data = await Categories.findAll({ attributes: ["uuid", "name"] });
   return data;
 };
 
@@ -14,11 +14,8 @@ const getCategoryByName = async (categoryName) => {
 };
 
 const addCategory = async (categoryName) => {
-  await Categories.create({ name: categoryName });
-  const data = await Categories.findOne({
-    order: [["id", "DESC"]],
-    attributes: ["id", "name"],
-  });
+  const data = await Categories.create({ name: categoryName });
+  console.log(data);
   return data;
 };
 
