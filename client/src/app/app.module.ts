@@ -25,6 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastsContainer } from './View/categories/categories-container.component';
 
+import { OrderComponent } from './View/order/order.component';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { ToastsContainer } from './View/categories/categories-container.componen
     AdminComponent,
     UserComponent,
     BulkUploadComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,
