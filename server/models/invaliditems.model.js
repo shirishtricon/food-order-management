@@ -28,8 +28,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      category_id: {
-        type: DataTypes.STRING,
+      category_uuid: {
+        type: DataTypes.UUID,
         allowNull: true,
       },
     },
