@@ -20,5 +20,10 @@ router.delete("/:id", verifyToken("Admin", "User"), userController.deleteUSer);
 
 //APIs for orders
 router.get("/orders", verifyToken("Admin"), orderController.getAllOrders);
-router.post("/order", verifyToken("User", "Admin"), orderController.addOrder);
+router.get(
+  "/order/:uuid",
+  verifyToken("User"),
+  orderController.getSingleUserOrders
+);
+router.post("/order", verifyToken("Admin", "User"), orderController.addOrder);
 module.exports = router;
