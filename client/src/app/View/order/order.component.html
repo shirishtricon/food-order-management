@@ -1,0 +1,31 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid px-4">
+  <h3 class="mt-2 mb-3">Recent Transactions</h3>
+  <div *ngFor="let order of allOrders">
+    <p class="m-0">Date: {{order.date}}</p>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of order.items">
+          <td>{{ item.name  }}</td>
+          <td>{{item.quantity}}</td>
+        </tr>
+        <tr>
+          <td colspan="1"><strong>Total</strong></td>
+          <td>{{order.subtotal}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="error">
+    <div class="alert alert-danger" role="alert">
+        <p class="p-0 m-0 text-center">No Orders Found</p>
+      </div>
+  </div>
+</div>
