@@ -22,7 +22,10 @@ const login = async (req, res) => {
       if (!passwordMatch) {
         res.status(401).json({ message: "Invalid Credentails" });
       }
-      user.name = user.first_name + " " + user.last_name;
+
+      user.name = user.last_name
+        ? user.first_name + " " + user.last_name
+        : user.first_name;
       user.role = "User";
       genereateToken(res, user);
     } else {
@@ -37,7 +40,7 @@ const genereateToken = (res, details) => {
   delete details.password;
 
   const options = {
-    expiresIn: "300s",
+    expiresIn: "1800s",
   };
 
   const newDetails = {
