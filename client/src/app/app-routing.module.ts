@@ -9,6 +9,7 @@ import { HomeComponent } from './View/home/home.component';
 import { LoginComponent } from './View/login/login.component';
 import { UserComponent } from './View/user/user.component';
 import { AuthGuard } from './_auth/auth.guard';
+import { OrderComponent } from './View/order/order.component';
 
 
 const routes: Routes = [
@@ -17,18 +18,21 @@ const routes: Routes = [
   // { path: 'addItem', component: AddItemComponent, canActivate:[AuthGuard], data:{roles:['Admin']} },
   // { path: 'addCategory', component: AddCategoryComponent, canActivate:[AuthGuard], data:{roles:['Admin']} },
   { path: 'home', component: HomeComponent},
+  
   { path: 'admin', component: AdminComponent, canActivate:[AuthGuard], data:{roles:['Admin']},
     children: [
       {path: 'categories', component: CategoriesComponent},
       {path: 'addItem', component: AddItemComponent}, 
-      {path: 'addCategory', component: AddCategoryComponent}
+      {path: 'addCategory', component: AddCategoryComponent},
+        
     ]
-},
+  },
   { path: 'user', component: UserComponent, canActivate:[AuthGuard], data:{roles:['User']},
   children: [
-    {path: 'categories', component: CategoriesComponent}
+    {path: 'categories', component: CategoriesComponent},
+    {path: 'orders', component: OrderComponent},
   ]
-},
+  },
   { path: 'forbidden', component: ForbiddenComponent}
 ];
 
