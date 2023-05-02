@@ -16,7 +16,7 @@ export class AddItemComponent implements OnInit{
 
   allCategories: any[] = [];
   filteredCategory: Item[]  = [];
-  lastItemId: number;
+
   lastItemName: string;
   itemAdded: string;
 
@@ -42,10 +42,10 @@ export class AddItemComponent implements OnInit{
         price: form.value.price,
         ratings: form.value.ratings,
         discount: form.value.discount,
-        category_id: this.resolveCategoryNameToCategoryId(form.value.category)
+        category_uuid: this.resolveCategoryNameToCategoryUuid(form.value.category)
       }
       this.itemService.addItems(item).subscribe((data:any) => {
-        this.lastItemId = data.id;
+        
         this.lastItemName = data.name;
         this.itemAdded = 'Done'
       }, (err) => {
@@ -57,11 +57,11 @@ export class AddItemComponent implements OnInit{
     
   }
 
-  resolveCategoryNameToCategoryId(categoryName:string) {
+  resolveCategoryNameToCategoryUuid(categoryName:string) {
     let filtertedCategory = this.allCategories.filter((category) => {
       return category.name === categoryName
     });
     this.filteredCategory = [...filtertedCategory];    
-    return this.filteredCategory[0].id;
+    return this.filteredCategory[0].uuid;
   }
 }
