@@ -8,6 +8,22 @@ const getAllOrders = async () => {
   return data;
 };
 
+const getSingleOrder = async (uuid) => {
+  try {
+    let data = await Orders.findAll({ where: { user_uuid: uuid } });
+    if (data.user_uuid) {
+      let SingleObjectData = [];
+      SingleObjectData.push(data);
+      return SingleObjectData;
+    } else {
+      return data;
+    }
+  } catch (error) {
+    throw new Error(error);
+    console.log(error);
+  }
+};
+
 const getSingleOrderByUuidAndDate = async (user_uuid, date) => {
   try {
     let data = await Orders.findOne({
@@ -46,4 +62,5 @@ module.exports = {
   getSingleOrderByUuidAndDate,
   getAllOrders,
   updateOrder,
+  getSingleOrder,
 };
