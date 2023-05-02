@@ -11,7 +11,7 @@ export class AddCategoryComponent {
 
   @ViewChild('categoryForm') form = NgForm;
   categoryAdded: string;
-  lastCategoryId: string;
+  
   lastCategoryName: string;
 
   constructor(private categoryService: CategoryService) { }
@@ -22,7 +22,7 @@ export class AddCategoryComponent {
         categoryName: form.value.name,
       }
       this.categoryService.addCategory(category).subscribe((data:any) => {
-        this.lastCategoryId = data.id;
+     
         this.lastCategoryName = data.name;
         this.categoryAdded = 'Done'
       }, (err) => {
