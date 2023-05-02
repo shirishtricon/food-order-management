@@ -29,15 +29,13 @@ const addItem = async (req, res) => {
     }
   }
   console.log(items);
-
-  await itemService
-    .addItem(items)
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: "Internal Server Error" });
-    });
+  try {
+    const data = await itemService.addItem(items);
+    res.status(200).json(data.dataValues);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 const adddBulkItems = async (req, res) => {
@@ -56,7 +54,9 @@ const adddBulkItems = async (req, res) => {
       let validData = validAndInvalidData[0];
       let invalidData = validAndInvalidData[1];
 
-      let validDataWithMappedId = await mapNameToId.categoryNameToId(validData);
+      let validDataWithMappedId = await mapNameToId.categoryNameToUuid(
+        validData
+      );
 
       await itemService.adddBulkItems(validDataWithMappedId);
       if (invalidData) {
