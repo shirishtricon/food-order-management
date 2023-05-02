@@ -120,7 +120,7 @@ export class CategoriesComponent implements OnInit, OnDestroy{
   selectedItems() {
     
     const uniqueItems = this.allSelectedItems.reduce((acc, item) => {
-      const existingItemIndex = acc.findIndex((i:any) => i.id === item.id);
+      const existingItemIndex = acc.findIndex((i:any) => i.uuid === item.uuid);
       if (existingItemIndex !== -1) {
         if (item.quantity > acc[existingItemIndex].quantity) {
           acc[existingItemIndex] = item;
@@ -158,9 +158,9 @@ export class CategoriesComponent implements OnInit, OnDestroy{
   }
 
   getItemsByCategory(category: number): Item[] {
-    let itemObj = this.allItems.filter(item => item.category_id === category);
+    let itemObj = this.allItems.filter(item => item.category_uuid === category);
     this.numberOfItems = Object.keys(itemObj).length 
-    return this.allItems.filter(item => item.category_id === category);
+    return this.allItems.filter(item => item.category_uuid === category);
   }
 
   navigateToAddItems() {
@@ -190,7 +190,7 @@ export class CategoriesComponent implements OnInit, OnDestroy{
       let updatedDetails = {
         name: form.value.name,
         price: form.value.price,
-        category_id: this.mapCategoryNameToId(form.value.category)
+        category_uuid: this.mapCategoryNameToUuid(form.value.category)
       }
       this.itemService.updateItem(updatedDetails, this.itemToUpdate.uuid).subscribe((response) => {
         this.acknowledgement = 'update'
@@ -218,24 +218,24 @@ export class CategoriesComponent implements OnInit, OnDestroy{
     this.form.form.patchValue({
       name: this.itemToUpdate.name,
       price: this.itemToUpdate.price,
-      category: this.mapCategoryIdToCategoryName(this.itemToUpdate.category_id)[0]
+      category: this.mapCategoryUuidToCategoryName(this.itemToUpdate.category_uuid)[0]
     })
 
     
   }
 
-  mapCategoryIdToCategoryName(category_id: any) {
+  mapCategoryUuidToCategoryName(category_uuid: any) {
     let category: any = this.categories.filter((category) => {
-      return category.id === category_id
+      return category.uuid === category_uuid
     })[0];
     return [category.name, category.uuid];
   }
 
-  mapCategoryNameToId(categoryName: any) {
+  mapCategoryNameToUuid(categoryName: any) {
     let category: any = this.categories.filter((category) => {
       return category.name === categoryName;
     })[0];
-    return category.id
+    return category.uuid
   };
 
   editToTrue() {
@@ -293,5 +293,13 @@ export class CategoriesComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
 		this.toastService.clear();
 	}
+
+  navigateToOrders() {
+    this.ngxService.start();
+    setTimeout(() => {
+      this.router.navigate(['/user/orders']);
+      this.ngxService.stop();
+    },1500)
+  }
   
 }
