@@ -1,12 +1,32 @@
+const { json } = require("body-parser");
 const services = require("../Services");
 const orderService = services.orderService;
 const jwt = require("jsonwebtoken");
+const returnItemsQuantity = require("../Utils/returnItemQuantity");
 
 const getAllOrders = async (req, res) => {
   try {
     let data = await orderService.getAllOrders();
-    res.status(200).json({ message: data });
+    let newData = returnItemsQuantity(data);
+    res.status(200).json(newData);
   } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const getSingleUserOrders = async (req, res) => {
+  try {
+    let uuid = req.params.uuid;
+    let data = await orderService.getSingleOrder(uuid);
+    if (data.length !== 0) {
+      let newData = returnItemsQuantity(data);
+      res.status(200).json(newData);
+    } else {
+      res.status(404).json({ message: "No Transactions Found" });
+    }
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -52,4 +72,5 @@ const addOrder = async (req, res) => {
 module.exports = {
   addOrder,
   getAllOrders,
+  getSingleUserOrders,
 };
