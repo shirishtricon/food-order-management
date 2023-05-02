@@ -8,12 +8,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
       },
 
-      id: {
-        unique: true,
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -34,12 +28,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      category_id: {
-        type: DataTypes.INTEGER,
+      category_uuid: {
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: "categories",
-          key: "id",
+          key: "uuid",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
@@ -47,9 +41,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-    },
-    {
-      initialAutoIncrement: 1000,
     }
   );
   return items;
