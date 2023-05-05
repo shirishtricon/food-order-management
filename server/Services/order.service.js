@@ -1,5 +1,6 @@
 const { where } = require("sequelize");
 const db = require("../models");
+const { Op } = require("sequelize");
 
 const Orders = db.sequelize.models.orders;
 
@@ -8,9 +9,16 @@ const getAllOrders = async () => {
   return data;
 };
 
-const getSingleOrder = async (uuid) => {
+const getSingleOrder = async (uuid, fromDate, toDate) => {
   try {
-    let data = await Orders.findAll({ where: { user_uuid: uuid } });
+    let data = await Orders.findAll({
+      where: {
+        user_uuid: uuid,
+        date: {
+          [Op.between]: [fromDate, toDate],
+        },
+      },
+    });
     if (data.user_uuid) {
       let SingleObjectData = [];
       SingleObjectData.push(data);
@@ -46,9 +54,16 @@ const addOrder = async (orderDetails) => {
 };
 
 const updateOrder = async (user_uuid, details) => {
-  await Orders.update(details, {
-    where: { user_uuid: user_uuid },
-  })
+  await Orders.update(
+    {
+      items: details.items,
+      subtotal: details.subtotal,
+      updatedAt: details.updatedAt,
+    },
+    {
+      where: { user_uuid: user_uuid, date: details.date },
+    }
+  )
     .then((res) => {
       console.log(res);
     })
