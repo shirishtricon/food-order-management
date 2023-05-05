@@ -11,15 +11,7 @@ const addUser = async (userData) => {
 
 const getAllUsers = async () => {
   const data = await Users.findAll({
-    attributes: [
-      "uuid",
-      "id",
-      "emp_id",
-      "first_name",
-      "last_name",
-      "email",
-      "contact_no",
-    ],
+    attributes: ["uuid", "emp_id", "first_name", "last_name"],
   });
   return data;
 };
