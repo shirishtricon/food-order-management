@@ -2,6 +2,7 @@ const services = require("../Services");
 const userService = services.userService;
 const bcrypt = require("bcrypt");
 const noBlankProperty = require("../Utils/checkForEmptyProperty");
+const nonEmptyLastName = require("../Utils/nonEmptyLastName");
 
 const addUser = async (req, res) => {
   try {
@@ -20,7 +21,12 @@ const addUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     let data = await userService.getAllUsers();
-    res.status(200).json(data);
+    if (!data) {
+      res.status(404).json({ message: "No Users Found" });
+    }
+    let firstNameLastNameMappedData =
+      nonEmptyLastName.checkForNonEmptyLastName(data);
+    res.status(200).json(firstNameLastNameMappedData);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal Server Error" });
