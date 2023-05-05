@@ -12,17 +12,21 @@ app.use(
   })
 );
 
-//APIs for users
+//APIs on users
 router.get("/", verifyToken("Admin"), userController.getAllUsers);
 router.post("/", userController.addUser);
-router.put("/:id", verifyToken("Admin", "User"), userController.updateUser);
-router.delete("/:id", verifyToken("Admin", "User"), userController.deleteUSer);
+router.put("/:uuid", verifyToken("Admin", "User"), userController.updateUser);
+router.delete(
+  "/:uuid",
+  verifyToken("Admin", "User"),
+  userController.deleteUSer
+);
 
 //APIs for orders
 router.get("/orders", verifyToken("Admin"), orderController.getAllOrders);
 router.get(
   "/order/:uuid",
-  verifyToken("User"),
+  verifyToken("Admin", "User"),
   orderController.getSingleUserOrders
 );
 router.post("/order", verifyToken("Admin", "User"), orderController.addOrder);
