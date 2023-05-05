@@ -54,11 +54,13 @@ const adddBulkItems = async (req, res) => {
       let validData = validAndInvalidData[0];
       let invalidData = validAndInvalidData[1];
 
-      let validDataWithMappedId = await mapNameToId.categoryNameToUuid(
-        validData
-      );
+      if (validData) {
+        let validDataWithMappedId = await mapNameToId.categoryNameToUuid(
+          validData
+        );
+        await itemService.adddBulkItems(validDataWithMappedId);
+      }
 
-      await itemService.adddBulkItems(validDataWithMappedId);
       if (invalidData) {
         await invalidItemService.addInvalidItem(invalidData);
       }
