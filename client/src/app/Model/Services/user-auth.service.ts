@@ -40,4 +40,13 @@ export class UserAuthService {
       return null;
     }
   }
+
+  public isAdmin():any {
+    let decodedToken = this.decodedToken();
+    if(decodedToken.role === 'Admin') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
