@@ -13,4 +13,8 @@ export class UserService {
   addUser(user: User) {
     return this.http.post<User[]>('http://localhost:5000/user',user)
   }
+
+  getAllUsers() {
+    return this.http.get<User[]>('http://localhost:5000/user')
+  }
 }
