@@ -2,30 +2,82 @@
 
 <div class="container-fluid px-4">
   <h3 class="mt-2 mb-3">Recent Transactions</h3>
-  <div *ngFor="let order of allOrders">
-    <p class="m-0">Date: {{order.date}}</p>
-    <table class="table table-sm">
+
+  <!-- to toggle the dropdown and select the user (only for admin) -->
+  <div class="dropdown mb-3" (click)="toggleDropdown()" *ngIf="isAdmin">
+    <input class="form-control" type="text" [(ngModel)]="selectedUser" (input)="filterUsers()" placeholder="Select or Search user...">
+    <div class="dropdown-menu" [ngClass]="{'show': isDropdownOpen}" aria-labelledby="dropdownMenuButton">
+      <ul class="list-unstyled ps-1">
+        <li *ngFor="let user of filteredUsers" class="border-bottom" (click)="selectUser(user.name, user.uuid)">{{ user.name }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- show the periods button group to select period of transactions for user and admin if no error -->
+  
+  <div *ngIf="(showTable && selectedUser) || ( !isAdmin)">
+    <!-- button group to select periods -->
+      <div class="btn-group mb-2" role="group" aria-label="Transaction Period">
+        <input type="radio" name="period" id="week" class="btn-check" value="week" checked (click)="getTransactions('week');hideCustomPeriod()">
+        <label class="btn btn-outline-primary" for="week">1 week</label>
+      
+        <input type="radio" name="period" id="month" class="btn-check" value="month"  (click)="getTransactions('month');hideCustomPeriod()">
+        <label class="btn btn-outline-primary" for="month">1 month</label>
+      
+        <input type="radio" name="period" id="custom" class="btn-check" value="custom"  (click)="showCustomPeriod()">
+        <label class="btn btn-outline-primary" for="custom">Custom</label>
+      </div>
+    
+    <!-- toggle custom period when custom button is selected -->
+    <div *ngIf="showCustom" class="custom-period">
+      <div class="form-group">
+        <label for="fromDate">From:</label>
+        <input type="date" class="form-control" id="fromDate" [(ngModel)]="fromDate" [max]="maxDate">
+      </div>
+    
+      <div class="form-group">
+        <label for="toDate">To:</label>
+        <input type="date" class="form-control" id="toDate" [(ngModel)]="toDate" [max]="maxDate">
+      </div>
+    
+      <div *ngIf="dateError" class="text-danger">{{customErrorMessage}}</div>
+      <button class="btn btn-primary mt-1" (click)="getTransactions('custom')" >Apply</button>
+    </div>
+
+    <!-- show table  -->
+    <table class="table table-sm table-bordered border-dark mt-1" *ngIf="!error && showTable">
       <thead>
         <tr>
-          <th>Item</th>
+          <th>Date</th>
+          <th>Items</th>
           <th>Quantity</th>
+          <th>Total</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of order.items">
-          <td>{{ item.name  }}</td>
-          <td>{{item.quantity}}</td>
-        </tr>
-        <tr>
-          <td colspan="1"><strong>Total</strong></td>
-          <td>{{order.subtotal}}</td>
-        </tr>
+        <ng-container *ngFor="let order of allOrders">
+          <ng-container *ngFor="let item of order.items; let i=index">
+            <tr *ngIf="i === 0">
+              <td class="align-middle" [attr.rowspan]="order.items.length">{{ order.date }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td class="align-middle" [attr.rowspan]="order.items.length">{{ order.subtotal }}</td>
+            </tr>
+            <tr *ngIf="i !== 0">
+              <td>{{ item.name }}</td>
+              <td>{{ item.quantity }}</td>
+            </tr>
+          </ng-container>
+        </ng-container>
       </tbody>
     </table>
   </div>
-  <div *ngIf="error">
+
+  <!-- error message if no orders found -->
+  <div *ngIf="error || (selectedUser && isAdmin && error)" class="mt-1">
     <div class="alert alert-danger" role="alert">
         <p class="p-0 m-0 text-center">No Orders Found</p>
       </div>
   </div>
 </div>
+<ngx-ui-loader fgsColor="white" text="Please Wait" fgsType="rectangle-bounce"></ngx-ui-loader>
