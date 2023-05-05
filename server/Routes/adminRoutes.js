@@ -46,12 +46,6 @@ router.post("/addAdmin", adminController.addAdmin);
 router.put("/updateAdmin/:uuid", adminController.updateAdmin);
 router.delete("/deleteAdmin/:uuid", adminController.deleteAdmin);
 
-//APIs for users
-router.get("/users", verifyToken("Admin"), userController.getAllUsers);
-router.post("/user", verifyToken("Admin"), userController.addUser);
-router.put("/user/:id", verifyToken("Admin"), userController.updateUser);
-router.delete("/user/:id", verifyToken("Admin"), userController.deleteUSer);
-
 //API for Bulk write
 router.post(
   "/upload",
