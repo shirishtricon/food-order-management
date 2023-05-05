@@ -18,7 +18,8 @@ const getAllOrders = async (req, res) => {
 const getSingleUserOrders = async (req, res) => {
   try {
     let uuid = req.params.uuid;
-    let data = await orderService.getSingleOrder(uuid);
+    let { fromDate, toDate } = req.query;
+    let data = await orderService.getSingleOrder(uuid, fromDate, toDate);
     if (data.length !== 0) {
       let newData = returnItemsQuantity(data);
       res.status(200).json(newData);
@@ -43,8 +44,8 @@ const addOrder = async (req, res) => {
     orderDetails.user_uuid = user_uuid;
 
     //check if order exist for a particular date
-    const currentDate = new Date().toISOString().slice(0, 10);
-    const existingRecord = await orderService.getSingleOrderByUuidAndDate(
+    let currentDate = new Date().toISOString().slice(0, 10);
+    let existingRecord = await orderService.getSingleOrderByUuidAndDate(
       user_uuid,
       currentDate
     );
