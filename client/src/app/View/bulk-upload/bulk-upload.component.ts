@@ -47,7 +47,7 @@ export class BulkUploadComponent implements OnInit{
       },
       (error) => {
         console.error('File upload failed:', error);
-        this.errorMessage = 'Invalid file';
+        this.errorMessage = 'Invalid File';
       }
     );
   }
