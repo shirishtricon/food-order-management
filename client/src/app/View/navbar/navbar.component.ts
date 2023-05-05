@@ -13,7 +13,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class NavbarComponent implements OnInit{
 
   totalPrice: number = 0;
-  name :string = ''
+  name :string = '';
 
   constructor(private dataService: DataService, 
               private userAuthService: UserAuthService,
@@ -59,5 +59,6 @@ export class NavbarComponent implements OnInit{
       return false;
     }
   }
-  
+
+
 }
