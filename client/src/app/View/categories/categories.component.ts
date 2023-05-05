@@ -51,6 +51,7 @@ export class CategoriesComponent implements OnInit, OnDestroy{
   edit:boolean = true;
   delete:boolean = true;
   itemToBeDeleted: string;
+  isAdmin: boolean;
   constructor(private router: Router, 
               private route: ActivatedRoute,
               private categoryService: CategoryService, 
@@ -59,7 +60,8 @@ export class CategoriesComponent implements OnInit, OnDestroy{
               private ngxService: NgxUiLoaderService,
               private loginServcie: LoginService,
               public toastService: ToastService,
-              private orderService: OrderService
+              private orderService: OrderService,
+              private userAuthService: UserAuthService
               ) { }
   
 
@@ -67,6 +69,7 @@ export class CategoriesComponent implements OnInit, OnDestroy{
     
     this.fetchCategories();
     this.fetchItems();
+    this.isAdmin = this.userAuthService.isAdmin();
     // this.editModalPopUp = new window.bootstrap.Modal(
     //   document.getElementById('editModal')
     // )
@@ -297,7 +300,11 @@ export class CategoriesComponent implements OnInit, OnDestroy{
   navigateToOrders() {
     this.ngxService.start();
     setTimeout(() => {
-      this.router.navigate(['/user/orders']);
+      if(!this.isAdmin) {
+        this.router.navigate(['/user/orders']);
+      } else {
+        this.router.navigate(['/admin/orders'])
+      }
       this.ngxService.stop();
     },1500)
   }
