@@ -13,7 +13,7 @@ export class OrderService {
     return this.http.post<Order[]>('http://localhost:5000/user/order',order)
   }
 
-  getUserOrder(uuid: string) {
-    return this.http.get<any>(`http://localhost:5000/user/order/${uuid}`)
+  getUserOrder(uuid: string, fromDate: string, toDate: string) {
+    return this.http.get<any>(`http://localhost:5000/user/order/${uuid}`, {params: {fromDate: fromDate, toDate: toDate}})
   }
 }
