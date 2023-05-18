@@ -43,7 +43,7 @@ export class UserAuthService {
 
   public isAdmin():any {
     let decodedToken = this.decodedToken();
-    if(decodedToken.role === 'Admin') {
+    if(decodedToken  && decodedToken.role === 'Admin') {
       return true;
     } else {
       return false;
