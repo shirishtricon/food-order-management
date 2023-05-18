@@ -21,7 +21,7 @@ export class LoginService {
   public roleMatch(allowedRole: any): boolean {
     let isMatch = false;
     const decodedToken = this.userAuthService.decodedToken();
-    const role = decodedToken.role;
+    const role = decodedToken.role ? decodedToken.role : null;
 
     if(role === allowedRole) {
       isMatch = true;
