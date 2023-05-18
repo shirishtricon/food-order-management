@@ -11,55 +11,51 @@
     <button type="button" class="btn buttons px-1 me-2 mb-2" (click)="navigateToAddCategory()" *ngIf="roleMatch('Admin')">Add Category<i class="bi bi-plus-circle p-1"></i></button>
     <button type="button" class="btn buttons px-1 mb-2" (click)="navigateToOrders()" *ngIf="!roleMatch('Admin')">Show Orders</button>
     <button type="button" class="btn buttons px-1 mb-2" (click)="navigateToOrders()" *ngIf="roleMatch('Admin')"><i class="bi bi-clock-history p-1"></i></button>
-    
-    <div class="d-flex flex-column " >
-      <!-- accordion start -->
-      <div *ngIf="categories.length > 0; else noCategories ">
-        <div class="accordion shadow mb-2" id="foodItemsAccordion">
-          <div *ngFor="let category of categories" class="accordion-item  text-black">
-            <h2 class="accordion-header" id="{{ category.name.replace(' ', '_') }}Header">
-              <button class="accordion-button collapsed  text-black" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+category.name.replace(' ', '_')" aria-expanded="false" [attr.aria-controls]="category.name.replace(' ', '_')">
-                {{ category.name }}
-              </button>
-            </h2>
-            <div [attr.id]="category.name.replace(' ', '_')" class="accordion-collapse collapse" [attr.aria-labelledby]="category.name.replace(' ', '_')+'Header'" data-bs-parent="#foodItemsAccordion">
-              <div class="accordion-body">
-                <div *ngIf="getItemsByCategory(category.uuid).length > 0; else noItemsFound">
-                  <div class="d-flex justify-content-between mb-1" *ngFor="let item of getItemsByCategory(category.uuid); index as indx">
-                    <div class="d-flex flex-column">
-                      <b>{{item.name}}</b>
-                      <p class="ms-0 mb-1"><i class="bi bi-currency-rupee"></i><small>{{item.price}}</small></p>
+
+
+    <!-- accordion start -->
+    <div ngbAccordion [closeOthers]="true">
+      <div ngbAccordionItem *ngFor="let category of categories" [collapsed]="true">
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>{{ category.name }}</button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <div *ngIf="getItemsByCategory(category.uuid).length > 0; else noItemsFound">
+                <div class="d-flex justify-content-between mb-1" *ngFor="let item of getItemsByCategory(category.uuid); index as indx">
+                  <div class="d-flex flex-column">
+                    <b>{{item.name}}</b>
+                    <p class="ms-0 mb-1"><i class="bi bi-currency-rupee"></i><small>{{item.price}}</small></p>
+                  </div>
+                  <div>
+                    <div class="btn-group mt-2" *ngIf="!roleMatch('Admin')">
+                      <button type="button" id="dec" class="btn  buttons" (click)="dec(item)">-</button>
+                      <button type="button" id="inc" class="btn  ">{{item.quantity}}</button>
+                      <button type="button" class="btn  buttons" (click)="inc(item)">+</button>                       
                     </div>
-                    <div>
-                      <div class="btn-group mt-2" *ngIf="!roleMatch('Admin')">
-                        <button type="button" class="btn  buttons" (click)="dec(item)">-</button>
-                        <button type="button" class="btn  ">{{item.quantity}}</button>
-                        <button type="button" class="btn  buttons" (click)="inc(item)">+</button>                       
-                      </div>
-                      <div *ngIf="roleMatch('Admin')">
-                        <button class="btn buttons me-1" data-bs-target="#editModal" data-bs-toggle="modal" (click)="setDefaultItems(item.uuid)"><i class="bi bi-pencil"></i></button>
-                        <button class="btn buttons" data-bs-target="#deleteModal" data-bs-toggle="modal" (click)="onItemDelete(item.uuid)"><i class="bi bi-trash"></i></button>
-                      </div>
+                    <div *ngIf="roleMatch('Admin')">
+                      <button class="btn buttons me-1" data-bs-target="#editModal" data-bs-toggle="modal" (click)="setDefaultItems(item.uuid)"><i class="bi bi-pencil"></i></button>
+                      <button class="btn buttons" data-bs-target="#deleteModal" data-bs-toggle="modal" (click)="onItemDelete(item.uuid)"><i class="bi bi-trash"></i></button>
                     </div>
                   </div>
                 </div>
-                <ng-template #noItemsFound>
-                  <b>No items found.</b>
-                </ng-template>
               </div>
-            </div>
+              <ng-template #noItemsFound>
+                <b>No items found.</b>
+              </ng-template>
+            </ng-template>
           </div>
         </div>
       </div>
-      
-      <ng-template #noCategories>
-        <h3>No Categories Found</h3>
-      </ng-template>
-      <!-- accordion end -->   
     </div>
+    <!-- accordion end -->
+
+
+
     <div class="buttons-container my-2" *ngIf="!roleMatch('Admin')">
       <button type="button" class="btn buttons " data-bs-toggle="modal" data-bs-target="#calculateModal" (click)="selectedItems()">Show Total</button>
-      <button type="button" class="btn buttons ms-3" (click)="reloadComponent()">Clear</button>
+      <button type="button" class="btn buttons ms-3" id='reloadComponent' (click)="reloadComponent()">Clear</button>
     </div>
     <!-- bill summary modal -->
     <div class="modal fade" id="calculateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
