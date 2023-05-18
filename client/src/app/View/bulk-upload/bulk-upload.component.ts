@@ -3,6 +3,7 @@ import { BulkUploadService } from 'src/app/Model/Services/item/bulk-upload.servi
 
 declare var window: any;
 
+import { Modal } from 'bootstrap';
 @Component({
   selector: 'app-bulk-upload',
   templateUrl: './bulk-upload.component.html',
@@ -17,8 +18,8 @@ export class BulkUploadComponent implements OnInit{
   constructor(private bulkUploadService: BulkUploadService) { }
 
   ngOnInit(): void {
-    this.formModal = new window.bootstrap.Modal(
-      document.getElementById('bulkItemModal')
+    this.formModal = new Modal(
+      document.getElementById('bulkItemModal') as HTMLElement
     )
   }
 
@@ -26,7 +27,9 @@ export class BulkUploadComponent implements OnInit{
     let fileType = event.target.files[0].name.substr( event.target.files[0].name.lastIndexOf('.') + 1);
     if(fileType === 'xlsx' || fileType === 'csv') {
       this.file = event.target.files[0];
+      this.errorMessage = '';
     } else {
+      this.file = null;
       this.errorMessage = 'Invalid File type'
     }
     
@@ -34,22 +37,24 @@ export class BulkUploadComponent implements OnInit{
 
   onUpload(): void {
     if (!this.file) {
-      this.errorMessage = 'Please select a file'
+      this.errorMessage = 'Please select a valid file'
       console.error('No file selected.');
       return;
+    } else {
+      this.bulkUploadService.uploadFile(this.file).subscribe(
+        (response) => {
+          console.log('File uploaded successfully.');
+          this.errorMessage = '';
+          this.openModal();
+        },
+        (error) => {
+          console.error('File upload failed:', error);
+          this.errorMessage = error;
+        }
+      );
     }
 
-    this.bulkUploadService.uploadFile(this.file).subscribe(
-      (response) => {
-        console.log('File uploaded successfully.');
-        this.errorMessage = '';
-        this.openModal();
-      },
-      (error) => {
-        console.error('File upload failed:', error);
-        this.errorMessage = 'Invalid File';
-      }
-    );
+    
   }
 
   openModal() {
