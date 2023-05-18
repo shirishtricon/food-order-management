@@ -10,8 +10,6 @@ import { LoginService } from 'src/app/Model/Services/login/login.service';
 import { NgForm } from '@angular/forms';
 import { Category } from 'src/app/Model/category.model';
 import { ToastService } from 'src/app/Model/Services/toast.service';
-import { ToastsContainer } from './categories-container.component';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { OrderService } from 'src/app/Model/Services/order/order.service';
 import { Order } from 'src/app/Model/order.model';
 
@@ -52,6 +50,7 @@ export class CategoriesComponent implements OnInit, OnDestroy{
   delete:boolean = true;
   itemToBeDeleted: string;
   isAdmin: boolean;
+  panelStates: boolean[] = [];
   constructor(private router: Router, 
               private route: ActivatedRoute,
               private categoryService: CategoryService, 
@@ -66,7 +65,7 @@ export class CategoriesComponent implements OnInit, OnDestroy{
   
 
   ngOnInit() {
-    
+    this.panelStates = this.categories.map(() => false);
     this.fetchCategories();
     this.fetchItems();
     this.isAdmin = this.userAuthService.isAdmin();
@@ -87,7 +86,6 @@ export class CategoriesComponent implements OnInit, OnDestroy{
       this.errorMessage = error;
       console.error('Error Retrieving Categories')
     })
-   
   }
 
   fetchCategories() {
@@ -97,27 +95,21 @@ export class CategoriesComponent implements OnInit, OnDestroy{
         this.categoryNames.push(category.name)
       })
     }, error => {
-      console.log(error);
-      
+      console.log(error)
     })
     console.log(this.categories);
   }
 
   inc(item: any) {
     item.quantity++;
-
       this.allSelectedItems.push(item)
-
-    
   }
 
   dec(item:any) {
     if(item.quantity >= 1) {
       item.quantity--;
       this.allSelectedItems.push(item);
-    }
-      
-
+    }  
   }
 
   selectedItems() {
@@ -143,7 +135,6 @@ export class CategoriesComponent implements OnInit, OnDestroy{
     const newUniqueItems = uniqueItems.filter((obj:any) => obj.quantity !== 0);    
     this.uniqueItems = newUniqueItems;
     this.selectedItemsArray = this.returnArrayOfSelectedItems(this.uniqueItems);
-    console.log(this.selectedItemsArray);
     
   }
 
@@ -160,10 +151,10 @@ export class CategoriesComponent implements OnInit, OnDestroy{
     location.reload();
   }
 
-  getItemsByCategory(category: number): Item[] {
-    let itemObj = this.allItems.filter(item => item.category_uuid === category);
+  getItemsByCategory(category: number): any[] {
+    let itemObj = this.allItems.filter((item:any) => item.category_uuid === category);
     this.numberOfItems = Object.keys(itemObj).length 
-    return this.allItems.filter(item => item.category_uuid === category);
+    return this.allItems.filter((item:any) => item.category_uuid === category);
   }
 
   navigateToAddItems() {
@@ -223,8 +214,7 @@ export class CategoriesComponent implements OnInit, OnDestroy{
       price: this.itemToUpdate.price,
       category: this.mapCategoryUuidToCategoryName(this.itemToUpdate.category_uuid)[0]
     })
-
-    
+ 
   }
 
   mapCategoryUuidToCategoryName(category_uuid: any) {
@@ -308,5 +298,6 @@ export class CategoriesComponent implements OnInit, OnDestroy{
       this.ngxService.stop();
     },1500)
   }
+  
   
 }
