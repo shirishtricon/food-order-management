@@ -1,8 +1,8 @@
 export class Item {
     uuid: string
     name: string;
-    price: string;
+    price: number;
     ratings: number
-    category_uuid: number;
+    category_uuid: string;
     quantity: number;
 }
