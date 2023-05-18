@@ -4,7 +4,7 @@
   <h3 class="mt-2 mb-3">Recent Transactions</h3>
 
   <!-- to toggle the dropdown and select the user (only for admin) -->
-  <div class="dropdown mb-3" (click)="toggleDropdown()" *ngIf="isAdmin">
+  <div class="dropdown mb-3" (click)="toggleDropdown()" *ngIf="isAdmin" id="toggleAdminDropDown">
     <input class="form-control" type="text" [(ngModel)]="selectedUser" (input)="filterUsers()" placeholder="Select or Search user...">
     <div class="dropdown-menu" [ngClass]="{'show': isDropdownOpen}" aria-labelledby="dropdownMenuButton">
       <ul class="list-unstyled ps-1">
