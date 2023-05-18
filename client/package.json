@@ -21,6 +21,7 @@
     "@auth0/angular-jwt": "^5.1.2",
     "@ng-bootstrap/ng-bootstrap": "^14.1.0",
     "@popperjs/core": "^2.11.6",
+    "@types/bootstrap": "^5.2.6",
     "bootstrap": "^5.2.3",
     "jquery": "^3.6.4",
     "ngx-toastr": "^16.1.1",
