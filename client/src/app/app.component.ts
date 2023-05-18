@@ -32,8 +32,9 @@ export class AppComponent implements OnInit{
           this.router.navigate(['/home']);
         }
       }
+    } else {
+      this.router.navigate(['/home']);
     }
 
-    
   }
 }
