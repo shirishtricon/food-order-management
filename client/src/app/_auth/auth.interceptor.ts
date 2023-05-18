@@ -26,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     } else {
                         
                     }
-                    return throwError('Something is wrong');
+                    return throwError(err);
                 }
             )
         );
