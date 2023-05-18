@@ -26,8 +26,10 @@ export class OrderComponent implements OnInit{
       this.showButtonGroup = true;
     }
     
-    else
-    this.getAllUsers()
+    else {
+      this.getAllUsers()
+    }
+   
   }
 
   allOrders: any[] = []
@@ -45,7 +47,7 @@ export class OrderComponent implements OnInit{
   dateError: boolean = false;
   customErrorMessage: string = '';
   uuidDataToBeFetched: string;
-  showButtonGroup: boolean;
+  showButtonGroup: boolean = false
 
   getUserTransactions() {
     const isLoggedIn = this.userAuthService.isLoggedIn();
@@ -53,14 +55,6 @@ export class OrderComponent implements OnInit{
       const decodedToken = this.userAuthService.decodedToken();
       const uuid = decodedToken.uuid;
       this.uuidDataToBeFetched = uuid;
-      // this.orderService.getUserOrder(uuid).subscribe((res) => {
-      //   this.allOrders = res
-      //   console.log(this.allOrders);
-      // }, (err) => {
-      //   this.error = true;
-      //   this.selectedUser = ''
-      //   console.log(err);
-      // })
       this.getTransactions('week')
     } 
   }
@@ -111,36 +105,18 @@ export class OrderComponent implements OnInit{
     })
   }
 
-  formatDate(date: string): Date {
-    const formattedDate = new Date(date);
-    return formattedDate;
-  }
 
   showCustomPeriod() {
     this.showCustom = true;
     this.error = false
-    // this.showTable = false;
   }
 
   hideCustomPeriod() {
     this.showCustom = false
   }
 
-  checkCustomValidation() {
-    console.log("From date:", this.fromDate);
-    console.log("To date:", this.toDate);
-    if(this.fromDate <= this.toDate) {
-      this.dateError = false;
-      // alert('valid')
-      return true
-    } else {
-      this.dateError = true;
-      return false
-    }
-  }
 
   getTransactions(period: string): void {
-
       this.dateError = false;
       if (period === 'custom' && this.dateError) {
         return;
@@ -177,7 +153,6 @@ export class OrderComponent implements OnInit{
       }
       const url = `https://your-api-url.com/transactions?from=${fromDate}&to=${toDate}`;
       this.getUserData(this.uuidDataToBeFetched, fromDate, toDate);
-
     
   }
   
