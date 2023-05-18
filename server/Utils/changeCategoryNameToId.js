@@ -7,7 +7,7 @@ const categoryNameToUuid = async (validCategoryData) => {
     const category = await categoryService.getCategoryByName(item.category);
     delete item.category;
     item.category_uuid = category.uuid;
-    validCategoryWitUuidData.push(item);
+    validCategoryWithUuidData.push(item);
   }
   return validCategoryWithUuidData;
 };
