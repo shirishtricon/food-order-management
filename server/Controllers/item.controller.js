@@ -42,14 +42,27 @@ const adddBulkItems = async (req, res) => {
   const file = req.file;
   const fileName = file.originalname;
   let extension = getExtension.getFileExtension(fileName);
-
+  const dataProperties = [
+    "name",
+    "description",
+    "price",
+    "ratings",
+    "discount",
+    "category",
+  ];
   //for parsing the Excel data
   const workbook = xlsx.read(file.buffer);
   const worksheet = workbook.Sheets[workbook.SheetNames[0]];
   const data = xlsx.utils.sheet_to_json(worksheet); // JSON data
-
+  const notInDataArray = Object.keys(data[0]).filter(
+    (key) => !dataProperties.includes(key)
+  );
   try {
-    if (extension === "xlsx" || extension === "csv") {
+    if (extension !== "xlsx" && extension !== "csv") {
+      throw Error("invalidFile");
+    } else if (notInDataArray.length > 0) {
+      throw Error("invalidProperties");
+    } else {
       validAndInvalidData = await returnData.returnValidAndInvalidData(data);
       let validData = validAndInvalidData[0];
       let invalidData = validAndInvalidData[1];
@@ -58,21 +71,24 @@ const adddBulkItems = async (req, res) => {
         let validDataWithMappedId = await mapNameToId.categoryNameToUuid(
           validData
         );
-        await itemService.adddBulkItems(validDataWithMappedId);
+        // await itemService.adddBulkItems(validDataWithMappedId);
       }
 
       if (invalidData) {
-        await invalidItemService.addInvalidItem(invalidData);
+        let inavlidDataWithMappedId = await mapNameToId.categoryNameToUuid(
+          invalidData
+        );
+        await invalidItemService.addInvalidItem(inavlidDataWithMappedId);
       }
       res.status(200).json({ message: "File Uploaded Successfully!" });
-    } else {
-      throw Error("invalidFile");
     }
   } catch (err) {
     console.log(err.message);
     if (err.message === "invalidFile") {
       // check for the specific error
       res.status(400).json({ message: "Invalid file" });
+    } else if (err.message === "invalidProperties") {
+      res.status(400).json({ message: "Invalid file Properties" });
     } else {
       console.log(err);
       res.status(500).json({ message: "Internal Server error" });
