@@ -31,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
       category_uuid: {
         type: DataTypes.UUID,
         allowNull: true,
+        references: {
+          model: "categories",
+          key: "uuid",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
     },
     {
