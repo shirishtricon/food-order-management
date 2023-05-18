@@ -1,7 +1,8 @@
 <div class="container mt-2 px-4">
    <form action="">
     <b>Upload File<span class="text-danger">*</span></b>
-    <input type="file" accept=".xlsx, .csv" name="bulkFile" id="bulkFile" class="mt-1" (change)="onFileSelected($event)">
+    <br><small class="text-dark">(Allowed file types: XLSX, CSV)</small>
+    <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="bulkFile" id="bulkFile" class="mt-1" (change)="onFileSelected($event)">
     <small class="d-block" *ngIf="errorMessage">{{ errorMessage }}</small>
     <button type="button" class="btn buttons  mt-2" (click)="onUpload()">Add Item</button>
    </form>
