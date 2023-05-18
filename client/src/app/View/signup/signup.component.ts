@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { UserService } from 'src/app/Model/Services/user/user.service';
 
 @Component({
@@ -8,18 +8,16 @@ import { UserService } from 'src/app/Model/Services/user/user.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
-  @ViewChild('addUser') form = NgForm;
+  @ViewChild('addUser', { static: false }) form!: NgForm;
   userAdded: string;
   lastEmpId: number;
-  lastEmpName: string
+  lastEmpName: string;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private fb: FormBuilder) {}
 
-  onUserAdd(form:any) {
-    if(form.valid) {
-      if(form.value.password === form.value.cnfPassword) {
-        console.log(form);
-        
+  onUserAdd(form: NgForm) {
+    if (form.valid) {
+      if (form.value.password === form.value.cnfPassword) {
         let user: any = {
           emp_id: form.value.emp_id,
           first_name: form.value.first_name,
@@ -27,21 +25,26 @@ export class SignupComponent {
           email: form.value.email,
           password: form.value.password,
           contact_no: form.value.contact_no
-        }
-        this.userService.addUser(user).subscribe((data:any) => {
-          this.lastEmpId = data.emp_id;
-          this.lastEmpName = data.first_name +' '+ (!(data.last_name) ? '' : data.last_name)
-          this.userAdded = 'Done'
-        }, (err => {
-          this.userAdded = 'Error'
-        }));
-        form.reset()
-        
+        };
+        this.userService.addUser(user).subscribe(
+          (data: any) => {
+            this.lastEmpId = data.emp_id;
+            this.lastEmpName =
+              data.first_name + ' ' + (!(data.last_name) ? '' : data.last_name);
+            this.userAdded = 'Done';
+            if (form && form.reset instanceof Function) {
+              form.reset();
+            }
+          },
+          (err) => {
+            this.userAdded = 'Error';
+          }
+        );
       } else {
-        this.userAdded = 'passwordMismatch'
+        this.userAdded = 'passwordMismatch';
       }
     } else {
-      this.userAdded = 'Empty'
+      this.userAdded = 'Empty';
     }
   }
 }
