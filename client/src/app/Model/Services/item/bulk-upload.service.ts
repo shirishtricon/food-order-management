@@ -23,6 +23,7 @@ export class BulkUploadService {
       }),
       catchError((error: HttpErrorResponse) => {
         let errorMessage = 'Unknown error occurred';
+        
         if (error.error instanceof ErrorEvent) {
           // Client-side error
           errorMessage = `Error: ${error.error.message}`;
@@ -34,7 +35,7 @@ export class BulkUploadService {
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
           }
         }
-        return throwError(errorMessage);
+        return throwError(errorMessage); // Return the error message as an observable
       })
     );
   }
