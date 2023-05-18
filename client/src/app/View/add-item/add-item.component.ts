@@ -57,11 +57,16 @@ export class AddItemComponent implements OnInit{
     
   }
 
-  resolveCategoryNameToCategoryUuid(categoryName:string) {
-    let filtertedCategory = this.allCategories.filter((category) => {
-      return category.name === categoryName
+  resolveCategoryNameToCategoryUuid(categoryName: string) {
+    let filteredCategory = this.allCategories.filter((category) => {
+      return category.name === categoryName;
     });
-    this.filteredCategory = [...filtertedCategory];    
-    return this.filteredCategory[0].uuid;
+  
+    if (filteredCategory && filteredCategory.length > 0) {
+      this.filteredCategory = [...filteredCategory];
+      return this.filteredCategory[0].uuid;
+    }
+  
+    return null; // or handle the case where no matching category is found
   }
 }
