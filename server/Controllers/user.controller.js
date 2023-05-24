@@ -8,6 +8,11 @@ const addUser = async (req, res) => {
   try {
     let user = noBlankProperty.removeEmptyProperty(req.body);
     console.log(user);
+    let existingUser = await userService.getUserByEmail(user.email);
+    if (existingUser) {
+      res.status(409).json({ message: "User already exist" });
+      return;
+    }
     hashedPassword = await bcrypt.hash(user.password, 5);
     user.password = hashedPassword;
     const data = await userService.addUser(user);
