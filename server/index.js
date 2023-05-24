@@ -10,6 +10,7 @@ const multer = require("multer");
 const xlsx = require("xlsx");
 const upload = multer();
 const db = require("./models");
+const port = 5000;
 
 const Items = db.sequelize.models.items;
 
@@ -27,7 +28,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 dotenv.config();
-
+app.get("/", (req, res) => {
+  res.send("App is running on port : " + port);
+});
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
 app.post("/login", login.login);
@@ -50,6 +53,6 @@ app.post("/login", login.login);
 //   }
 // });
 
-app.listen(5000, () => {
+app.listen(port, () => {
   console.log("App is running on port 5000");
 });
