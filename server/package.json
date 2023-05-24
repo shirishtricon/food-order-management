@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc mocha --recursive"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,12 @@
     "mysql2": "^3.2.0",
     "pg": "^8.10.0",
     "sequelize": "^6.29.0",
+    "sinon": "^15.1.0",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0"
   }
 }
