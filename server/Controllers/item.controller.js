@@ -2,11 +2,9 @@ const services = require("../Services");
 const xlsx = require("xlsx");
 const itemService = services.itemService;
 const invalidItemService = services.invalidItemService;
-const categoryService = services.categoryService;
-const ifArrayEqual = require("../Utils/ifAllDataEqual");
-const returnCategoryArray = require("../Utils/returnCategoryArray");
+
 const mapNameToId = require("../Utils/changeCategoryNameToId");
-const { items } = require("../models");
+
 const returnData = require("../Utils/returnData");
 const getExtension = require("../Utils/getExtension");
 
