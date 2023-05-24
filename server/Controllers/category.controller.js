@@ -43,7 +43,7 @@ const updateCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
   try {
     let uuid = req.params.uuid;
-    const data = services.categoryService.deleteCategory(uuid);
+    const data = await services.categoryService.deleteCategory(uuid);
     res.status(200).json({ message: "Category deleted successfully!" });
   } catch (err) {
     console.log(err);
