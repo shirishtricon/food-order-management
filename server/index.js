@@ -1,8 +1,11 @@
+const mode = process.env.NODE_ENV || "dev";
+const envFile = `./.env.${mode}`;
+require("dotenv").config({ path: envFile });
+
 const express = require("express");
 var bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
-const dotenv = require("dotenv");
 const adminRoutes = require("./Routes/adminRoutes");
 const userRoutes = require("./Routes/user.route");
 const login = require("./Middleware/loginAuth");
