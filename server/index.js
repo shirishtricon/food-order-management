@@ -30,7 +30,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-dotenv.config();
 app.get("/", (req, res) => {
   res.send("App is running on port : " + port);
 });
