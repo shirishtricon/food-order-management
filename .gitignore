@@ -1,7 +1,6 @@
-server/node_modules
-server/.env.dev
-server/.env.prod
-client/node_modules
+
 client/.angular
 server/file.xlsx
 connect_aws
+**/node_modules
+**/.env*
