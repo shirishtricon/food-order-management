@@ -1,16 +1,12 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const dotenv = require("dotenv");
 
-const mode = process.env.NODE_ENV || "development";
-const envFile = mode === "production" ? ".env.prod" : ".env.dev";
-dotenv.config({ path: envFile });
-
 const sequelize = new Sequelize(
-  process.env.database,
-  process.env.user,
-  process.env.password,
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
   {
-    host: process.env.host,
+    host: process.env.DB_HOST,
     dialect: "postgres",
     pool: { max: 5, min: 0, idle: 10000 },
   }
