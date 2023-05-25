@@ -13,7 +13,7 @@ const multer = require("multer");
 const xlsx = require("xlsx");
 const upload = multer();
 const db = require("./models");
-const port = 5000;
+const port = 5001;
 
 const Items = db.sequelize.models.items;
 
@@ -56,5 +56,5 @@ app.post("/login", login.login);
 // });
 
 app.listen(port, () => {
-  console.log("App is running on port 5000");
+  console.log("App is running on port 5001");
 });
