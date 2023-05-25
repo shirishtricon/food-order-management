@@ -1,7 +1,9 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const dotenv = require("dotenv");
 
-dotenv.config();
+const mode = process.env.NODE_ENV || "development";
+const envFile = mode === "production" ? ".env.prod" : ".env.dev";
+dotenv.config({ path: envFile });
 
 const sequelize = new Sequelize(
   process.env.database,
