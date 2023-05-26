@@ -3,7 +3,9 @@ jwtKey = "secretKey";
 
 const verifyToken = (admin, user) => {
   return (req, res, next) => {
-    let token = req.headers.token;
+    const authHeader = req.headers["authorization"];
+    const bearerToken = authHeader.split(" ");
+    const token = bearerToken[1];
     if (token) {
       jwt.verify(token, jwtKey, (err, valid) => {
         if (err) {
