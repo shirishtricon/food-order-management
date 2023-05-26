@@ -1,15 +1,20 @@
 const categoryService = require("../Services/category.service");
 
-const categoryNameToUuid = async (validCategoryData) => {
-  let validCategoryWithUuidData = [];
+const categoryNameToUuid = async (CategoryData) => {
+  let CategoryWithUuidData = [];
 
-  for (item of validCategoryData) {
+  for (item of CategoryData) {
     const category = await categoryService.getCategoryByName(item.category);
     delete item.category;
-    item.category_uuid = category.uuid;
-    validCategoryWithUuidData.push(item);
+
+    if (category) {
+      item.category_uuid = category.uuid;
+    } else {
+      item.category_uuid = null;
+    }
+    CategoryWithUuidData.push(item);
   }
-  return validCategoryWithUuidData;
+  return CategoryWithUuidData;
 };
 
 module.exports = { categoryNameToUuid };
