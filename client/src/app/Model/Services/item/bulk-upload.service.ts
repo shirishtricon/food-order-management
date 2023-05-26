@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { API_BASE_URL } from '../../../../api.config'
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class BulkUploadService {
 
-  private apiUrl = 'http://localhost:5000/admin/upload';
+  private apiUrl = `${API_BASE_URL}/admin/upload`;
 
   constructor(private http: HttpClient) {}
 
