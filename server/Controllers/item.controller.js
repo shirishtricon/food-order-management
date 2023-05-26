@@ -69,7 +69,7 @@ const adddBulkItems = async (req, res) => {
         let validDataWithMappedId = await mapNameToId.categoryNameToUuid(
           validData
         );
-        // await itemService.adddBulkItems(validDataWithMappedId);
+        await itemService.adddBulkItems(validDataWithMappedId);
       }
 
       if (invalidData) {
