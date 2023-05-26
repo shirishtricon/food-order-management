@@ -35,7 +35,9 @@ const getSingleUserOrders = async (req, res) => {
 const addOrder = async (req, res) => {
   try {
     let orderDetails = req.body;
-    let token = req.headers.token;
+    let authHeader = req.headers["authorization"];
+    let authDecode = authHeader.split(" ");
+    let token = authDecode[1];
     let user_uuid = jwt.decode(token).uuid;
     let items = JSON.stringify(req.body.items);
     let date = new Date();
