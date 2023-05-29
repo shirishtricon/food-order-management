@@ -12,6 +12,7 @@ export class SignupComponent {
   userAdded: string;
   lastEmpId: number;
   lastEmpName: string;
+  message: string = ''
 
   constructor(private userService: UserService, private fb: FormBuilder) {}
 
@@ -37,14 +38,22 @@ export class SignupComponent {
             }
           },
           (err) => {
-            this.userAdded = 'Error';
+            console.log(err);
+            if(err.status === 0) {
+              this.message = 'Service Unavailable. Try again later'
+            } else if(err.status === 409) {
+              this.message = 'User Already exist'
+            } else {
+              this.message = 'Error';
+            }
+           
           }
         );
       } else {
-        this.userAdded = 'passwordMismatch';
+        this.message = 'Passwords did not match';
       }
     } else {
-      this.userAdded = 'Empty';
+      this.message = 'Please Enter all Details';
     }
   }
 }
