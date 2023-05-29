@@ -40,10 +40,11 @@ export class NavbarComponent implements OnInit{
 
   logout() {
     this.ngxService.start();
-
-      this.userAuthService.clear();
-      this.router.navigate(['/home']);
+      
+      
       setTimeout(() => {
+        this.userAuthService.clear();
+        this.router.navigate(['/home']);
         this.ngxService.stop();
       }, 1000);
 
