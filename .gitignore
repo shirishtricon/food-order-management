@@ -1,6 +1,6 @@
 
 client/.angular
-server/file.xlsx
+server/itemsUpload.xlsx
 connect_aws
 **/node_modules
 **/.env*
