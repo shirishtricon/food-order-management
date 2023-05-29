@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserAuthService } from '../user-auth.service';
+import { API_BASE_URL } from '../../../../api.config'
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class LoginService {
     .set('content-type','application/json')
     .set('Access-Control-Allow-Origin','*')
     .set('No-Auth','True')
-    return this.http.post('http://localhost:5000/login', loginData, {headers: headers})
+    return this.http.post(`${API_BASE_URL}/login`, loginData, {headers: headers})
   }
   
   public roleMatch(allowedRole: any): boolean {
