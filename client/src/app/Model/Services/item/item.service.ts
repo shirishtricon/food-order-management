@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse} from '@angular/common/http'
 import { Item } from '../../item.model';
 import { Observable, throwError, TimeoutError  } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
+import { API_BASE_URL } from '../../../../api.config'
 
 
 @Injectable({
@@ -13,22 +14,22 @@ export class ItemService {
   constructor(private http: HttpClient) { }
 
   getItems(): Observable<any[]> {
-    return this.http.get<Item[]>('http://localhost:5000/admin/items').pipe(
+    return this.http.get<Item[]>(`${API_BASE_URL}/admin/items`).pipe(
       timeout(5000),
       catchError(this.handleError)
     );
   };
 
   addItems(items: Item) {
-    return this.http.post<Item[]>('http://localhost:5000/admin/item',items)
+    return this.http.post<Item[]>(`${API_BASE_URL}/admin/item`,items)
   }
 
   updateItem(item: any, uuid: string) {
-    return this.http.put<any[]>(`http://localhost:5000/admin/item/${uuid}`,item)
+    return this.http.put<any[]>(`${API_BASE_URL}/admin/item/${uuid}`,item)
   }
 
   deleteItem(uuid:string) {
-    return this.http.delete(`http://localhost:5000/admin/item/${uuid}`);
+    return this.http.delete(`${API_BASE_URL}/admin/item/${uuid}`);
   }
 
   private handleError(error: HttpErrorResponse) {
