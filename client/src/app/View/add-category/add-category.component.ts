@@ -24,7 +24,10 @@ export class AddCategoryComponent {
       this.categoryService.addCategory(category).subscribe((data:any) => {
      
         this.lastCategoryName = data.name;
-        this.categoryAdded = 'Done'
+        this.categoryAdded = 'Done';
+        if (form && form.reset instanceof Function) {
+          form.reset();
+        }
       }, (err) => {
         this.categoryAdded = 'Error'
       })
