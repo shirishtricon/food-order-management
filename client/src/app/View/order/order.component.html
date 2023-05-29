@@ -15,7 +15,7 @@
 
   <!-- show the periods button group to select period of transactions for user and admin if no error -->
   
-  <div *ngIf="(showTable && selectedUser) || ( !isAdmin)">
+  <div *ngIf="(selectedUser) || ( !isAdmin) ">
     <!-- button group to select periods -->
       <div class="btn-group mb-2" role="group" aria-label="Transaction Period">
         <input type="radio" name="period" id="week" class="btn-check" value="week" checked (click)="getTransactions('week');hideCustomPeriod()">
