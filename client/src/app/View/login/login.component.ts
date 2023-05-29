@@ -53,11 +53,17 @@
           },2000)
           
         }, (error) => {
-          console.log(error);
-          if(error.error) {
-            this.message = error.error.message;
-            this.openModal();
+          console.log(error.status);
+          if(error.status === 0) {
+            this.message = 'Server Unavailable. Try again later';
+            this.openModal()
+          } else {
+            if(error.error) {
+              this.message = error.error.message;
+              this.openModal();
+            }
           }
+         
         })
       } else {
         this.message = "Enter All Details"
