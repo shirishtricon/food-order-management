@@ -48,6 +48,9 @@ export class AddItemComponent implements OnInit{
         
         this.lastItemName = data.name;
         this.itemAdded = 'Done'
+        if (form && form.reset instanceof Function) {
+          form.reset();
+        }
       }, (err) => {
         this.itemAdded = 'Error'
       })
