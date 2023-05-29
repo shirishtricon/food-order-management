@@ -60,7 +60,7 @@ export class CategoriesComponent implements OnInit, OnDestroy{
               private loginServcie: LoginService,
               public toastService: ToastService,
               private orderService: OrderService,
-              private userAuthService: UserAuthService
+              private userAuthService: UserAuthService,
               ) { }
   
 
@@ -83,18 +83,22 @@ export class CategoriesComponent implements OnInit, OnDestroy{
       this.allItems = items;
       this.ngxService.stop()
     }, error => {
+      this.ngxService.stop()
       this.errorMessage = error;
       console.error('Error Retrieving Categories')
     })
   }
 
   fetchCategories() {
+    this.ngxService.start()
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories.push(...categories);
       categories.map((category) => {
         this.categoryNames.push(category.name)
-      })
+      });
+      this.ngxService.stop()
     }, error => {
+      this.ngxService.stop()
       console.log(error)
     })
     console.log(this.categories);
@@ -148,7 +152,9 @@ export class CategoriesComponent implements OnInit, OnDestroy{
   }
   
   reloadComponent(): void {
-    location.reload();
+    this.allSelectedItems.map((item) => {
+      item.quantity = 0;
+    })
   }
 
   getItemsByCategory(category: number): any[] {
