@@ -4,9 +4,9 @@ jwtKey = "secretKey";
 const verifyToken = (admin, user) => {
   return (req, res, next) => {
     const authHeader = req.headers["authorization"];
-    const bearerToken = authHeader.split(" ");
-    const token = bearerToken[1];
-    if (token) {
+    if (authHeader) {
+      const bearerToken = authHeader.split(" ");
+      const token = bearerToken[1];
       jwt.verify(token, jwtKey, (err, valid) => {
         if (err) {
           res.status(401).send({ message: "Invalid Token!" });
@@ -22,7 +22,7 @@ const verifyToken = (admin, user) => {
         }
       });
     } else {
-      res.status(403).send({ message: "No token found!" });
+      res.status(403).send({ message: "No Authorization Header found!" });
     }
   };
 };
