@@ -273,7 +273,9 @@ export class CategoriesComponent implements OnInit, OnDestroy{
 
 
   submitOrder() {
+    let user_uuid = this.userAuthService.decodedToken().uuid;
     let orderDetails: Order = {
+      user_uuid: user_uuid,
       items:  this.selectedItemsArray,
       subtotal: this.getTotalPrice()
     }
