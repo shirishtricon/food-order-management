@@ -35,15 +35,11 @@ const getSingleUserOrders = async (req, res) => {
 const addOrder = async (req, res) => {
   try {
     let orderDetails = req.body;
-    let authHeader = req.headers["authorization"];
-    let authDecode = authHeader.split(" ");
-    let token = authDecode[1];
-    let user_uuid = jwt.decode(token).uuid;
+    let user_uuid = orderDetails.user_uuid;
     let items = JSON.stringify(req.body.items);
     let date = new Date();
     orderDetails.items = items;
     orderDetails.date = date;
-    orderDetails.user_uuid = user_uuid;
 
     //check if order exist for a particular date
     let currentDate = new Date().toISOString().slice(0, 10);
