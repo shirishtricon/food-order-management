@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const adminController = require("../Controllers/admin.controller");
-const userController = require("../Controllers/user.controller");
+const adminController = require("../controllers/admin.controller");
+const userController = require("../controllers/user.controller");
 const secretKey = "secretKey";
 const jwt = require("jsonwebtoken");
 
