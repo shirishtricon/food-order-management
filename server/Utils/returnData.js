@@ -1,5 +1,5 @@
-const itemService = require("../Services/item.service");
-const categoryService = require("../Services/category.service");
+const itemService = require("../services/item.service");
+const categoryService = require("../services/category.service");
 
 const returnValidAndInvalidData = async (allItems) => {
   let validItems = [];
