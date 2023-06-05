@@ -1,7 +1,7 @@
-const services = require("../Services");
+const services = require("../services");
 const adminService = services.adminService;
 const bcrypt = require("bcrypt");
-const noBlankProperty = require("../Utils/checkForEmptyProperty");
+const noBlankProperty = require("../utils/checkForEmptyProperty");
 
 const addAdmin = async (req, res) => {
   try {
