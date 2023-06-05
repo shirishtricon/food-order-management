@@ -1,8 +1,8 @@
 const { json } = require("body-parser");
-const services = require("../Services");
+const services = require("../services");
 const orderService = services.orderService;
 const jwt = require("jsonwebtoken");
-const returnItemsQuantity = require("../Utils/returnItemQuantity");
+const returnItemsQuantity = require("../utils/returnItemQuantity");
 
 const getAllOrders = async (req, res) => {
   try {
