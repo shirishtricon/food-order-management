@@ -1,4 +1,4 @@
-const categoryService = require("../Services/category.service");
+const categoryService = require("../services/category.service");
 
 const categoryNameToUuid = async (CategoryData) => {
   let CategoryWithUuidData = [];
