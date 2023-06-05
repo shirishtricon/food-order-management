@@ -1,5 +1,5 @@
 const db = require("../models");
-const services = require("../Services");
+const services = require("../services");
 
 const getAllCategories = async (req, res) => {
   try {
