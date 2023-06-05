@@ -1,8 +1,8 @@
-const services = require("../Services");
+const services = require("../services");
 const userService = services.userService;
 const bcrypt = require("bcrypt");
-const noBlankProperty = require("../Utils/checkForEmptyProperty");
-const nonEmptyLastName = require("../Utils/nonEmptyLastName");
+const noBlankProperty = require("../utils/checkForEmptyProperty");
+const nonEmptyLastName = require("../utils/nonEmptyLastName");
 
 const addUser = async (req, res) => {
   try {
