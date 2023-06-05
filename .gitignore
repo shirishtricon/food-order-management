@@ -4,3 +4,7 @@ server/itemsUpload.xlsx
 connect_aws
 **/node_modules
 **/.env*
+nginx-1.25.0/
+server/.nyc_output/
+server/.vscode/launch.json
+server/.vscode/launch.json
