@@ -5,8 +5,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-prod": "cross-env NODE_ENV=prod npm run pre-build && cross-env NODE_ENV=prod npm run build && cross-env NODE_ENV=prod npm run post-build",
+    "build-dev": "cross-env NODE_ENV=dev npm run pre-build && cross-env NODE_ENV=dev npm run build && cross-env NODE_ENV=dev npm run post-build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test-g": "cross-env NODE_ENV=prod npm run post-build",
+    "pre-build": "gulp pre-build",
+    "post-build": "gulp post-build"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +28,7 @@
     "@popperjs/core": "^2.11.6",
     "@types/bootstrap": "^5.2.6",
     "bootstrap": "^5.2.3",
+    "cross-env": "^7.0.3",
     "jquery": "^3.6.4",
     "ngx-toastr": "^16.1.1",
     "ngx-ui-loader": "^13.0.0",
@@ -36,6 +42,8 @@
     "@angular/compiler-cli": "^15.0.0",
     "@angular/localize": "^15.0.0",
     "@types/jasmine": "~4.3.0",
+    "gulp": "^4.0.2",
+    "gulp-rename": "^2.0.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
