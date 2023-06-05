@@ -1,12 +1,12 @@
-const services = require("../Services");
+const services = require("../services");
 const xlsx = require("xlsx");
 const itemService = services.itemService;
 const invalidItemService = services.invalidItemService;
 
-const mapNameToId = require("../Utils/changeCategoryNameToId");
+const mapNameToId = require("../utils/changeCategoryNameToId");
 
-const returnData = require("../Utils/returnData");
-const getExtension = require("../Utils/getExtension");
+const returnData = require("../utils/returnData");
+const getExtension = require("../utils/getExtension");
 
 const getAllItems = async (req, res) => {
   await itemService
