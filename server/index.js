@@ -63,7 +63,13 @@ require("./models");
 
 app.use(
   cors({
-    origin: "*",
+    origin: "*", // Allow requests from any origin (you can specify specific origins instead of "*" if desired)
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Specify the allowed HTTP methods
+    preflightContinue: false,
+    optionsSuccessStatus: 204, // Set the response status code for successful preflight requests
+    allowedHeaders: "Content-Type,Authorization", // Specify the allowed request headers
+    credentials: true, // Enable sending cookies and authorization headers
+    maxAge: 3600, // Set the maximum age (in seconds) for preflight requests
   })
 );
 
