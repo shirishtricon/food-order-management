@@ -61,7 +61,13 @@ const Items = db.sequelize.models.items;
 
 require("./models");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    allowedHeaders: "*",
+    methods: "*",
+  })
+);
 
 app.use(express.json());
 
